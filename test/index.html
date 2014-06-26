@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>NPL.js Tests</title>
+	<link rel="stylesheet" media="all" href="../bower_components/mocha/mocha.css">
+	<script src="../bower_components/fixtures/fixtures.js"></script>
+	<script src="../bower_components/mocha/mocha.js"></script>
+	<script src="../bower_components/should/should.js"></script>
+	<script src="../bower_components/requirejs/require.js"></script>
+	<script>fixtures.path = 'assets/' </script>
+
+	<script type="text/javascript" src="../bower_components/blanket/dist/qunit/blanket.js"
+			 data-cover-never="['stemmer','helpers']" data-cover-only="['src']"
+	></script>
+	<script type="text/javascript" src="../bower_components/grunt-blanket-mocha/support/mocha-blanket.js"></script>
+	<script>
+	    /* global blanket */
+	    if (window.PHANTOMJS) {
+	        blanket.options("reporter", "../bower_components/grunt-blanket-mocha/support/grunt-reporter.js");
+	    }
+
+	</script>
+	<script>
+		if (typeof(Promise) === 'undefined'){
+			document.write('<script type="text/javascript" src="../bower_components/es6-promise/promise.js">');
+		}
+	</script>
+
+	<script>mocha.setup('bdd')</script>
+	<script>
+		require.config({
+			baseUrl: '/bower_components/',
+			paths: {
+				'nlpjs': '/src',
+				'test' : '/test'
+			}
+		});
+
+		require(['test/core/Document',
+				 'test/core/Corpus',
+				 'test/core/AnnotationSet',
+				 'test/core/HtmlDocument',
+				 'test/extras/NGram',
+				 'test/extras/Tokenizer',
+				 'test/extras/Stemmer',
+				 'test/helpers/helpers',
+				 'test/helpers/frequency'
+				 ], function(){
+			setTimeout(function(){
+				mocha.run();
+			}, 1000);
+		});
+	</script>
+	<style>
+	#blanket-main { margin: 0 25px 0 65px !important; font-size: 12px !important;tab-size: 4; }
+	</style>
+</head>
+<body>
+	<div id="mocha"></div>
+	<div id="blanket-main">
+</body>
+</html>

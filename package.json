@@ -1,0 +1,22 @@
+{
+  "name": "nlp.js",
+  "version": "0.0.1",
+  "description": "Native language processing in javascript",
+  "main": "nlp.js",
+  "devDependencies": {
+    "grunt": "0.4",
+    "grunt-append-sourcemapping": "0.0.2",
+    "grunt-clear": "^0.2.1",
+    "grunt-closure-tools": "^0.9.6",
+    "grunt-contrib-connect": "^0.7.1",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-import": "^0.1.7",
+    "grunt-jsdoc": "^0.5.4",
+    "grunt-mocha": "^0.4.10",
+    "phantomjs": "*"
+  },
+  "dependencies": {
+    "requirejs": "^2.1.14"
+  }
+}

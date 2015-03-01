@@ -13,7 +13,7 @@ define(['nlpjs/helpers/http'], function(http){
 	 *  ngrams(2,3) // returns bi-grams and tri-grams
 	 */
 	NGram.ngrams = function(document, n, m){
-		if (m == undefined)
+		if (m === undefined)
 			m = n;
 
 		var dict = {},
@@ -57,14 +57,14 @@ define(['nlpjs/helpers/http'], function(http){
 			return (a.c > b.c) ? -1 : ((a.c < b.c) ? 1 : 0);
 		});
 
-		var totalCount = arr.reduce(function(sum, ngram) {return sum + ngram.c}, 0);
+		var totalCount = arr.reduce(function(sum, ngram) { return sum + ngram.c; }, 0);
 		if (totalCount < 1)
 			totalCount = 1;
 
 		for (var i=0; i<arr.length; i++) {
 			arr[i].f = arr[i].c/totalCount;
 			arr[i].r = i;
-		};
+		}
 		return arr;
 	};
 
@@ -81,7 +81,7 @@ define(['nlpjs/helpers/http'], function(http){
 				}
 				return self._ngramScore(thisNgrams, reverseIndex);
 			});
-		}
+		};
 	};
 
 	NGram._ngramScore = function(ngrams, reverseIndex) {
@@ -91,7 +91,7 @@ define(['nlpjs/helpers/http'], function(http){
 		for (var i=0;i<ngrams.length;i+=1) {
 			var gram = ngrams[i];
 			var model = reverseIndex[gram.w];
-			penalty = (model == undefined) ? max : Math.abs(gram.r - model.r);
+			penalty = (model === undefined) ? max : Math.abs(gram.r - model.r);
 			penalties.push(penalty);
 			distance += penalty;
 		}
@@ -122,7 +122,7 @@ define(['nlpjs/helpers/http'], function(http){
 	};
 
 	NGram.importUrl = function(url){
-		return promise = http.get(url).then(function(x){
+		return http.get(url).then(function(x){
 			return NGram.import(x);
 		});
 	};

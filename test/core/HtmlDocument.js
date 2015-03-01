@@ -1,4 +1,7 @@
 require(['nlpjs/core/HtmlDocument'], function(HtmlDocument){
+
+	HtmlDocument = HtmlDocument.default;
+
 	describe('HtmlDocument', function(){
 
 		var doc;

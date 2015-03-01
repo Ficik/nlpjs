@@ -1,5 +1,5 @@
 define(function(){
-	
+
 	/*!
 	 * Snowball JavaScript Library v0.3
 	 * http://code.google.com/p/urim/
@@ -10,9 +10,8 @@ define(function(){
 	 */
 
 	function Among(s, substring_i, result, method) {
-		if ((!s && s != "") || (!substring_i && (substring_i != 0)) || !result)
-			throw ("Bad Among initialisation: s:" + s + ", substring_i: "
-					+ substring_i + ", result: " + result);
+		if ((!s && s !== "") || (!substring_i && (substring_i !== 0)) || !result)
+			throw (`Bad Among initialisation: s: ${s}, substring_i: ${substring_i}, result: ${result}`);
 		this.s_size = s.length;
 		this.s = this.toCharArray(s);
 		this.substring_i = substring_i;
@@ -24,7 +23,7 @@ define(function(){
 		for (var i = 0; i < sLength; i++)
 			charArr[i] = s.charCodeAt(i);
 		return charArr;
-	}
+	};
 
 	return Among;
 });

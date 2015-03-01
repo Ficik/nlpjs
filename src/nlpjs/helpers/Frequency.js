@@ -2,8 +2,8 @@ define(['nlpjs/helpers/listtomap'], function(l2m){
 
   var Frequency = {
     calculate : function(list, top){
-      var dict = {};
-      var total = 0;
+      var dict = {},
+          total = 0;
       for(var i=0, ii=list.length; i<ii; i++){
         var token = list[i];
         if (dict[token] === undefined){
@@ -15,14 +15,14 @@ define(['nlpjs/helpers/listtomap'], function(l2m){
         dict[token].c += 1;
         total += 1;
       }
-      var list = [];
-      for(var key in dict){
+      list = [];
+      for(let key in dict){
         if (dict.hasOwnProperty(key)){
           dict[key].f = (dict[key].c) / total;
           list.push(dict[key]);
         }
       }
-      list = list.sort(function(a,b){ return b.c - a.c });
+      list = list.sort(function(a,b){ return b.c - a.c; });
       if (top === undefined)
         return list;
       list = list.slice(0, top);
@@ -43,13 +43,9 @@ define(['nlpjs/helpers/listtomap'], function(l2m){
       var fn = args.pop();
       var arr = args.shift();
       var result = [];
-      var dicts = args.map(function(x){ return l2m(x, 'v')});
+      var dicts = args.map(function(x){ return l2m(x, 'v'); });
       for(var i=0, ii=arr.length; i<ii; i++){
-        var cmp = dicts.map(function(dict){
-          if (dict[arr[i].v] !== undefined)
-            return dict[arr[i].v].f;
-          return 0;
-        });
+        var cmp = dicts.map((dict) => (dict[arr[i].v] !== undefined)? dict[arr[i].v].f : 0);
         cmp.unshift(arr[i].f);
         if (fn.apply(this, cmp)){
           result.push(arr[i]);

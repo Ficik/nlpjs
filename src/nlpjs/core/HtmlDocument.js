@@ -1,19 +1,30 @@
-define(['nlpjs/core/Document', 'nlpjs/core/AnnotationSet'],function(Document, AnnotationSet){
-	/**
-	 * @constructor
-	 * @param {string} name
-	 * @name nlpjs.core.HtmlDocument
-	 * @extends nlpjs.core.Document
-	 */
-	var HtmlDocument = Document.extend(function(name) {
-	});
-	//goog.inherits(HtmlDocument, nlpjs.core.Document);
+import Document from './Document';
 
-	Object.defineProperty(HtmlDocument.prototype, 'text', {
+export default class HtmlDocument extends Document {
 
-		get : function(text) {
+		constructor(name){
+			super(name);
+
+			this.entityMap = {
+				'&nbsp;': ' ',
+				'&amp;' : '&',
+				'&lt;'  : '<',
+				'&gt;'  : '>',
+				'&quot;': '"',
+				'&#x27;': "'"
+			};
+
+			this.unescape = (function() {
+				var mapping = new RegExp('('+Object.keys(HtmlDocument.prototype.entityMap).join('|')+')');
+				return function(html) {
+					return html.replace(mapping, function(entity) { return HtmlDocument.prototype.entityMap[entity]; });
+				};
+			})();
+		}
+
+		get text(text) {
 			return this._text;
-		},
+		}
 		/**
 	     * Human readable text of the document
 	     *
@@ -25,7 +36,7 @@ define(['nlpjs/core/Document', 'nlpjs/core/AnnotationSet'],function(Document, An
 	     * @type {string}
 	     * @override
 	     */
-		set : function(text) {
+		set text(text) {
 			text = this._cleanupHtml(text);
 			if (text.normalize)
 				text.normalize();
@@ -64,7 +75,7 @@ define(['nlpjs/core/Document', 'nlpjs/core/AnnotationSet'],function(Document, An
 							element : tagname
 						};
 						attrs.replace(/(\w|-)+(?:=(\S+))?/g, attributeMatcher);
-						var annotation = AnnotationSet.createAnnotation(position, position, 'html', attrSet)
+						var annotation = AnnotationSet.createAnnotation(position, position, 'html', attrSet);
 						if(unpair[tagname]){ // it's not pair element, close immediately
 							annotations.push(annotation);
 						} else {
@@ -77,7 +88,6 @@ define(['nlpjs/core/Document', 'nlpjs/core/AnnotationSet'],function(Document, An
 			}
 			this.annotations.add(annotations);
 		}
-	});
 
 	/**
 	 * Removes scripts, comments and unnessesary whitespaces
@@ -88,29 +98,12 @@ define(['nlpjs/core/Document', 'nlpjs/core/AnnotationSet'],function(Document, An
 	 * @return {string} cleaned up html
 	 * @name nlpjs.core.HtmlDocument#_cleanupHtml
 	 */
-	HtmlDocument.prototype._cleanupHtml = function(html) {
+	_cleanupHtml(html) {
 		return html.replace(/\n|\r/g, ' ')
 				.replace(/<((?:script)|(?:style)).+?<\/\1>/gi, '') //remove scripts and style
 				.replace(/<!--.+?-->/gi, '') //remove html comments
 				.replace(/<!\[CDATA\[.+?\]\]>/gi, '') //remove CDATA
 				.replace(/\s+/g,' ');
-	};
+	}
 
-	HtmlDocument.prototype.entityMap = {
-		'&nbsp;': ' ',
-		'&amp;' : '&',
-		'&lt;'  : '<',
-		'&gt;'  : '>',
-		'&quot;': '"',
-		'&#x27;': "'"
-	};
-
-	HtmlDocument.prototype.unescape = (function() {
-		var mapping = new RegExp('('+Object.keys(HtmlDocument.prototype.entityMap).join('|')+')')
-		return function(html) {
-			return html.replace(mapping, function(entity) { return HtmlDocument.prototype.entityMap[entity]; });
-		};
-	})();
-
-	return HtmlDocument;
-});
+}

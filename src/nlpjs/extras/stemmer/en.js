@@ -7,6 +7,7 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/among', 'nlpjs/helpers/snowball']
 	 * Copyright 2010, Oleg Mazko
 	 * http://www.mozilla.org/MPL/
 	 */
+	/* jshint ignore:start */
 
 	function EnglishStemmer() {
 		var a_0 = [new Among("arsen", -1, -1), new Among("commun", -1, -1),
@@ -510,5 +511,5 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/among', 'nlpjs/helpers/snowball']
 			return this._stemmer.stem();
 		}
 	});
-
+	/* jshint ignore:end */
 });

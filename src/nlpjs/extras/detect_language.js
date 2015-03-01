@@ -13,9 +13,11 @@ goog.scope(function() {
 	Language.mixin.language = function(model, threshold) {
 		var names  = [],
 			models = [];
-		for (key in model){
-			names.push[key];
-			models.push(model[key]);
+		for (var key in model){
+			if (model.hasOwnProperty(key)){
+				names.push(key);
+				models.push(model[key]);
+			}
 		}
 		threshold = threshold || 150;
 		// TODO: detect n in ngram model

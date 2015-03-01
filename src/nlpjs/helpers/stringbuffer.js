@@ -33,6 +33,6 @@ define(function(){
         charAt: function(i) {
             return this.str[i];
         }
-    }
+    };
     return StringBuffer;
 });

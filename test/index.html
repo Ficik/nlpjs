@@ -7,6 +7,11 @@
 	<script src="../bower_components/fixtures/fixtures.js"></script>
 	<script src="../bower_components/mocha/mocha.js"></script>
 	<script src="../bower_components/should/should.js"></script>
+	<!--
+	<script src="../bower_components/traceur/traceur.js"></script>
+	<script src="../bower_components/es6-module-loader/dist/es6-module-loader.js"></script>
+	<script src="../bower_components/system.js/dist/system.js"></script>
+	-->
 	<script src="../bower_components/requirejs/require.js"></script>
 	<script>fixtures.path = 'assets/' </script>
 
@@ -20,37 +25,41 @@
 	        blanket.options("reporter", "../bower_components/grunt-blanket-mocha/support/grunt-reporter.js");
 	    }
 
-	</script>
-	<script>
 		if (typeof(Promise) === 'undefined'){
 			document.write('<script type="text/javascript" src="../bower_components/es6-promise/promise.js">');
 		}
-	</script>
+		mocha.setup('bdd');
 
-	<script>mocha.setup('bdd')</script>
-	<script>
+		//System.paths['nlpjs/*'] = '../src/*.js';
 		require.config({
-			baseUrl: '/bower_components/',
+			baseUrl: '../bower_components/',
 			paths: {
-				'nlpjs': '/src',
-				'test' : '/test'
-			}
+				'nlpjs': '../dist/nlpjs',
+				'test' : '../test'
+			},
+			packages: [
+        { name: 'wire', location: '../../../target/deps/wire-0.0.1/0.10.2', main: 'wire' },
+        { name: 'when', location: '../../../target/deps/when-0.0.1/2.4.1', main: 'when' },
+        { name: 'meld', location: '../../../target/deps/meld-0.0.1/1.3.0', main: 'meld' },
+        { name: 'poly', location: '../../../target/deps/poly-0.0.1/0.5.2', main: 'poly' }
+    	]
 		});
 
-		require(['test/core/Document',
-				 'test/core/Corpus',
+		require([
+				 'test/core/Document',
 				 'test/core/AnnotationSet',
+				'test/core/Corpus',
 				 'test/core/HtmlDocument',
-				 'test/extras/NGram',
+				/*'test/extras/NGram',
 				 'test/extras/Tokenizer',
 				 'test/extras/Stemmer',
 				 'test/helpers/helpers',
-				 'test/helpers/frequency'
+				 'test/helpers/frequency'*/
 				 ], function(){
-			setTimeout(function(){
-				mocha.run();
-			}, 1000);
-		});
+					setTimeout(function () {
+						mocha.run();
+					}, 1000);
+				});
 	</script>
 	<style>
 	#blanket-main { margin: 0 25px 0 65px !important; font-size: 12px !important;tab-size: 4; }

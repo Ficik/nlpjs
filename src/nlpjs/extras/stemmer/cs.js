@@ -224,7 +224,7 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/stringbuffer'], function(Stemmer,
               return;
           }
         if( (len> 4 )&&
-             buffer.substring( len- 2 ,len).equals("\00e1k")){ //-ák
+             buffer.substring( len- 2 ,len).equals("\u00e1k")){ //-ák
 
              buffer.delete( len- 2 , len);
              return;

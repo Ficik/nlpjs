@@ -3,7 +3,7 @@
  * Tools for corpus linguistic in browser
  * License MIT (c) Stanislav Fifik 2014
  */
-define([
+/*define([
   'nlpjs/core',
   'nlpjs/extras'
 ], function(core, extras){
@@ -11,4 +11,11 @@ define([
     core   : core,
     extras : extras
   };
-});
+});*/
+import core from 'core';
+import extras from 'extras';
+
+export default {
+  core: core,
+  extras: extras
+};

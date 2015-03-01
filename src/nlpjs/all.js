@@ -12,8 +12,8 @@
     extras : extras
   };
 });*/
-import core from 'core';
-import extras from 'extras';
+import * as core from './core';
+import extras from './extras';
 
 export default {
   core: core,

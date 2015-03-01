@@ -12,7 +12,7 @@ define(['nlpjs/core/AnnotationSet', 'nlpjs/helpers/removeaccent',  'nlpjs/helper
 
 	var Tokenizer = klass(function(){
 		this.capitals = "A-ZĚŠČŘŽÝÁÍÉÚŮ";
-		this.sentenceTerminators = "?.!"
+		this.sentenceTerminators = "?.!";
 		this.abbrs = [];
 		this.ignoredCharacters = "0-9 \"?!.,:;()–|/„".split('').concat('\\[', '\\]');
 		this.dateRegex = /(?:(?:[1-3][0-9])|(?:0?[1-9]))\.\s*(?:(?:1[0-2])|(?:0?[1-9]))\.(?:\s*[0-9]{4}|[0-9]{2})?/g;
@@ -48,7 +48,7 @@ define(['nlpjs/core/AnnotationSet', 'nlpjs/helpers/removeaccent',  'nlpjs/helper
 				tokens = tokens.concat(this.lines(document, true));
 				tokens = tokens.concat(this.times(document, true));
 				document.annotations.add(tokens);
-				var tokens = [];
+				tokens = [];
 				tokens = tokens.concat(this.sentences(document, true));
 				tokens = tokens.concat(this.stopwords(document, true));
 				document.annotations.add(tokens);
@@ -130,13 +130,16 @@ define(['nlpjs/core/AnnotationSet', 'nlpjs/helpers/removeaccent',  'nlpjs/helper
 		* (interrorative, impertative or declarative)
 		*/
 		sentences : function(document, returnTokens) {
-			var tokens = [];
-			var annotations = document.annotations;
-			var self = this;
+			var sentence,
+					offset,
+					line,
+					tokens = [],
+					annotations = document.annotations,
+					self = this;
 			document.text.replace(this.sentenceRegex, function(match, sentence, type, position){
 				for (var i=0,ii=self.abbrs.length;i<ii;i++){
 						if (sentence.indexOf(self.abbrs[i]) == sentence.length-self.abbrs[i].length)
-							return
+							return;
 				}
 				if (type === '?')
 					type = 'interrorative';
@@ -144,13 +147,13 @@ define(['nlpjs/core/AnnotationSet', 'nlpjs/helpers/removeaccent',  'nlpjs/helper
 					type = 'imperative';
 				else
 					type = 'declarative';
-				var offset = match.length - sentence.length - 1;
-				var sentence = AnnotationSet.createAnnotation(offset + position, offset + position + sentence.length, 'sentence', {type : type});
+				offset = match.length - sentence.length - 1;
+				sentence = AnnotationSet.createAnnotation(offset + position, offset + position + sentence.length, 'sentence', {type : type});
 				// try fix using line
-				var line = annotations.get(sentence.start, sentence.end).type('line').first;
+				line = annotations.get(sentence.start, sentence.end).type('line').first;
 				if (line){
 					if (sentence.start !== line.start){
-							var prev_sentence = tokens[tokens.length-1];
+							let prev_sentence = tokens[tokens.length-1];
 							if (prev_sentence && prev_sentence.start >= line.start){
 								sentence.start = prev_sentence.end;
 							} else {
@@ -202,7 +205,7 @@ define(['nlpjs/core/AnnotationSet', 'nlpjs/helpers/removeaccent',  'nlpjs/helper
 						jj++;
 					}
 				}
-			};
+			}
 
 			var removed = {};
 			tokens = tokens.filter(function(token, j){ // remove lines containing line(s)

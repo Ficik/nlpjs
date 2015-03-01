@@ -1,4 +1,7 @@
 require(['nlpjs/core/Corpus', 'nlpjs/core/Document'], function(Corpus, Document){
+	Corpus = Corpus.default;
+	Document = Document.default;
+
 	describe('Corpus', function(){
 
 		it('should have name', function() {
@@ -22,7 +25,7 @@ require(['nlpjs/core/Corpus', 'nlpjs/core/Document'], function(Corpus, Document)
 			var name = 'The Document';
 			var doc = new Document(name);
 			var corpus = new Corpus('The Corpus');
-			
+
 			corpus.add(doc);
 
 			corpus.document(name).should.be.exactly(doc);

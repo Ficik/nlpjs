@@ -7,6 +7,7 @@ define(function(){
 	 * Copyright 2010, Oleg Mazko
 	 * http://www.mozilla.org/MPL/
 	 */
+	/* jshint ignore:start */
 
 	function SnowballProgram() {
 		var current;
@@ -233,5 +234,6 @@ define(function(){
 			}
 		};
 	}
+	/* jshint ignore:end */
 	return SnowballProgram;
 });

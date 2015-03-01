@@ -1,4 +1,7 @@
 require(['nlpjs/core/Document', 'nlpjs/core/AnnotationSet'], function(Document, AnnotationSet){
+	Document = Document.default;
+	AnnotationSet = AnnotationSet.default;
+
 	describe('Document', function(){
 
 		var IPSUM = 'Lorem ipsum dolor sit amet';

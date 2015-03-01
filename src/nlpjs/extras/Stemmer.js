@@ -28,7 +28,7 @@ define(['klass/klass', 'require'], function(klass, require){
 				var words = document.annotations.type(type);
 				words.each(function(word){
 					var w = text.slice(word.start, word.end);
-					word.features['stem'] = self._stem(w);
+					word.features.stem = self._stem(w);
 				});
 			}
 		});

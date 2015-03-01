@@ -1,15 +1,5 @@
-define('nlpjs/core', [
-  'nlpjs/core/AnnotationSet',
-  'nlpjs/core/Container',
-  'nlpjs/core/Corpus',
-  'nlpjs/core/Document',
-  'nlpjs/core/HtmlDocument'
-], function(AnnotationSet, Container, Corpus, Document, HtmlDocument){
-  return {
-    AnnotationSet : AnnotationSet,
-    Container     : Container,
-    Corpus        : Corpus,
-    Document      : Document,
-    HtmlDocument  : HtmlDocument
-  };
-});
+export {AnnotationSet} from './core/AnnotationSet';
+export {Container} from './core/Container';
+export {Corpus} from './core/Corpus';
+export {Document} from './core/Document';
+export {HtmlDocument} from './core/HtmlDocument';

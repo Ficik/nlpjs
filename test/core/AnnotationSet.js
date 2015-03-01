@@ -1,4 +1,7 @@
 require(['nlpjs/core/AnnotationSet', 'nlpjs/core/Document'], function(AnnotationSet, Document){
+	AnnotationSet = AnnotationSet.default;
+	Document = Document.default;
+	
 	describe('AnnotationSet', function(){
 
 		function createDummyAnnotationSet(){

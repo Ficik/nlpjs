@@ -12,17 +12,21 @@ gulp.task('js', 'process javascript files and put them to dist dir', function(){
               .pipe($gulp.sourcemaps.init())
               .pipe($gulp.jshint())
               .pipe($gulp.jshint.reporter(jshintStylish))
-              .pipe($gulp.babel())
-              .pipe($gulp.uglify())
-
-              //.pipe(gulp.dest('dist'))
-              .pipe($gulp.es6ModuleTranspiler({
+              .pipe($gulp.babel({
+                filenameRelative: 'sourceRoot',
+                sourceRoot: 'src',
+                moduleRoot: 'nlpjs',
+                modules: 'amdStrict'
+              }))
+              //.pipe($gulp.uglify())
+              .pipe($gulp.sourcemaps.write(''))
+              .pipe(gulp.dest('dist'))
+              /*.pipe($gulp.es6ModuleTranspiler({
                   basePath: 'src',
                   importPaths: ['nlpjs'],
                   formatter: new AMDFormatter()
               }))
-              .pipe($gulp.sourcemaps.write(''))
-              .pipe(gulp.dest('.'))
+              .pipe(gulp.dest('.'))*/
 });
 
 gulp.task('test', 'runs tests using mocha and blanket', [], function(){
@@ -46,7 +50,7 @@ gulp.task('clean', 'removes build files', function(cb){
 gulp.task('build', 'one time build of documentationa and javascript', ['clean', 'js', 'docs']);
 
 gulp.task('default', 'task for starting development with file watching', ['webserver', 'build'], function(){
-    gulp.watch('src/**/*.js', ['build']);
+    gulp.watch(['src/**/*.js'], ['build']);
 });
 
 gulp.task('webserver', function() {

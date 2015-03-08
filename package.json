@@ -33,5 +33,8 @@
     "phantomjs": "*",
     "yargs": "^3.4.4",
     "requirejs": "^2.1.14"
+  },
+  "dependencies": {
+    "babel": "^4.7.3"
   }
 }

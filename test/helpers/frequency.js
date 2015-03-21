@@ -1,8 +1,8 @@
 require(['nlpjs/helpers/Frequency'], function(Frequency){
     describe('Frequency helper', function(){
 
-      var list = ['a', 'aa', 'ab', 'a', 'aa', 'aa', 'ac']
-      var list2 = ['a', 'aa', 'aa', 'bb']
+      var list = ['a', 'aa', 'ab', 'a', 'aa', 'aa', 'ac'];
+      var list2 = ['a', 'aa', 'aa', 'bb'];
 
       it('should be an object', function(){
           Frequency.should.be.an.Object.with.properties('calculate', 'recalculate', 'filter');

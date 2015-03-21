@@ -16,7 +16,7 @@ require(['nlpjs/core/HtmlDocument'], function(HtmlDocument){
 			var html = fixtures.read('test_document.html');
 			var htmlDoc = new HtmlDocument();
 			htmlDoc.text = html;
-			htmlDoc.text.should.not.containEql('<script>')
+			htmlDoc.text.should.not.containEql('<script>');
 			htmlDoc.size.should.be.greaterThan(0);
 			htmlDoc.annotations
 				.get(htmlDoc.indexOf('Lorem ipsum')).type('html').size

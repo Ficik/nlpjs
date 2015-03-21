@@ -20,7 +20,7 @@ gulp.task('js', 'process javascript files and put them to dist dir', function(){
               }))
               //.pipe($gulp.uglify())
               .pipe($gulp.sourcemaps.write(''))
-              .pipe(gulp.dest('dist'))
+              .pipe(gulp.dest('dist'));
               /*.pipe($gulp.es6ModuleTranspiler({
                   basePath: 'src',
                   importPaths: ['nlpjs'],

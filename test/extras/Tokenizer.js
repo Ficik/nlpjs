@@ -29,7 +29,7 @@ require(['nlpjs/extras/Tokenizer', 'nlpjs/extras/tokenizer/cs', 'nlpjs/core/Docu
 		it('should match as single sentence with czech tokenizer', function(){
 				var doc = new Document('Doc');
 				doc.text = 'Český text obsahující slova atd. v jedné větě. ';
-				var tokenizer = new CsTokenizer()
+				var tokenizer = new CsTokenizer();
 
 				tokenizer.tokenize(doc);
 				doc.annotations.type('sentence').size.should.be.exactly(1);

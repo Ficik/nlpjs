@@ -33,7 +33,7 @@ require(['nlpjs/extras/NGram', 'nlpjs/core/Document'], function(NGram, Document)
 		});
 
 		it('should import data from url', function(done){
-			var promise = NGram.importUrl('../assets/ngram.model.js')
+			var promise = NGram.importUrl('../assets/ngram.model.js');
 			promise.then(function(x){
 					x.should.have.property('cs').which.is.an.Array;
 					done();

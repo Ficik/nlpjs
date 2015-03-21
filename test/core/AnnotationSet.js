@@ -19,9 +19,8 @@ require(['nlpjs/core/AnnotationSet', 'nlpjs/core/Document'], function(Annotation
 				type: 'test1',
 				features: {}
 			}]);
-		};
-
-		it('should have static method for creating annotations', function(){
+        }
+        it('should have static method for creating annotations', function(){
 			var annotation = AnnotationSet.createAnnotation(0, 10, 'type', {major: 'dummy'});
 			annotation.type.should.be.exactly('type');
 			annotation.start.should.be.exactly(0);
@@ -114,7 +113,7 @@ require(['nlpjs/core/AnnotationSet', 'nlpjs/core/Document'], function(Annotation
 			clone.start = 5;
 			clone.end.should.be.exactly(10);
 			annotation.start.should.be.exactly(0);
-		})
+		});
 
 		it('should have map method', function(){
 			var annotations = new AnnotationSet();

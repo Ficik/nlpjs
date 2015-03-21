@@ -4,18 +4,9 @@
   "description": "Native language processing in javascript",
   "main": "nlp.js",
   "devDependencies": {
+    "babel": "^4.7.3",
     "del": "^1.1.1",
     "es6-module-transpiler-amd-formatter": "^0.3.0",
-    "grunt": "0.4",
-    "grunt-append-sourcemapping": "0.0.2",
-    "grunt-clear": "^0.2.1",
-    "grunt-closure-tools": "^0.9.6",
-    "grunt-contrib-connect": "^0.7.1",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-import": "^0.1.7",
-    "grunt-jsdoc": "^0.5.4",
-    "grunt-mocha": "^0.4.10",
     "gulp": "^3.8.11",
     "gulp-babel": "^4.0.0",
     "gulp-concat": "^2.5.2",
@@ -30,11 +21,10 @@
     "gulp-uglify": "^1.1.0",
     "gulp-webserver": "^0.9.0",
     "jshint-stylish": "^1.0.1",
+    "mocha": "*",
     "phantomjs": "*",
-    "yargs": "^3.4.4",
-    "requirejs": "^2.1.14"
-  },
-  "dependencies": {
-    "babel": "^4.7.3"
+    "requirejs": "^2.1.14",
+    "should": "^5.2.0",
+    "yargs": "^3.4.4"
   }
 }

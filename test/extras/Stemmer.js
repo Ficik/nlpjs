@@ -17,7 +17,7 @@ require(['nlpjs/extras/Stemmer', 'nlpjs/core/Document', 'nlpjs/extras/Tokenizer'
 			var called = 0;
 			var stemmer = Stemmer.abstract.extend(function(){
 				this._language = 'id';
-			})
+			});
 			stemmer.prototype._stem = function(word){
 					called += 1;
 					return word;
@@ -63,7 +63,7 @@ require(['nlpjs/extras/Stemmer', 'nlpjs/core/Document', 'nlpjs/extras/Tokenizer'
 			}).catch(function(e){
 				done(e);
 			});
-		})
+		});
 
 		it('should stemm czech sentence', function(done){
 			var doc = new Document('Zlutoucky Kun');

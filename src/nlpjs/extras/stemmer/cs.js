@@ -227,7 +227,7 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/stringbuffer'], function(Stemmer,
              buffer.substring( len- 2 ,len).equals("\u00e1k")){ //-ák
 
              buffer.delete( len- 2 , len);
-             return;
+
          }
 
     }
@@ -325,7 +325,7 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/stringbuffer'], function(Stemmer,
              buffer.substring( len- 1 ,len).equals("k")){
 
              buffer.delete( len- 1, len);
-             return;
+
              }
     }//removeDiminutives
 
@@ -338,7 +338,7 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/stringbuffer'], function(Stemmer,
 
              buffer.delete( len- 2 , len);
              palatalise(buffer);
-             return;
+
              }
 
     }
@@ -377,7 +377,7 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/stringbuffer'], function(Stemmer,
              return;
         }
         buffer.delete( len- 1 , len);
-        return;
+
     }//palatalise
 
     function removePossessives(buffer) {
@@ -398,7 +398,7 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/stringbuffer'], function(Stemmer,
 
                 buffer.delete( len- 1 , len);
                 palatalise(buffer);
-                return;
+
                     }
         }
     }//removePossessives
@@ -522,7 +522,7 @@ define(['nlpjs/extras/Stemmer', 'nlpjs/helpers/stringbuffer'], function(Stemmer,
               buffer.substring( len-1,len).equals("\u00fd")){   //-ý
 
             buffer.delete( len- 1 , len);
-             return;
+
                   }
         }//len>3
     }

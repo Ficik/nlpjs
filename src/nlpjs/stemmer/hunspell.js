@@ -16,6 +16,10 @@ export default class Hunspell {
      */
     constructor(ruleset){
         this.ruleset = ruleset;
+        this.nextId = 0;
+        for (let rule of ruleset){
+            rule.id = this.nextId++;
+        }
     }
 
     /**
@@ -62,6 +66,43 @@ export default class Hunspell {
         }
         return collisions;
     }
+
+    /**
+     *
+     * @param {Array<Number>|Array<{id:Number}>}rules
+     */
+    removeRules(rules){
+        var index = {};
+        for (let rule of rules) {
+            index[rule.id || rule] = true;
+        }
+        this.ruleset = this.ruleset.filter(function(x){
+            return !index[x.id];
+        });
+    }
+
+
+    /**
+     * Removes colliding rules based on their usage
+     */
+    removeCollidingRules(){
+        var collisions = this.collisions();
+        var remove = [];
+        for (let collision of collisions) {
+            remove.push(collision[0].usage > collision[1].usage ? collision[1] : collision[0]);
+        }
+        this.removeRules(remove);
+    }
+
+    /**
+     * Removes rules with useage below threshold
+     */
+    removeUnusedRules(threshold=0){
+        this.ruleset = this.ruleset.filter(function(x){
+            return x.usage > threshold;
+        });
+    }
+
 
     /**
      * Calculates usage of rules on provided words

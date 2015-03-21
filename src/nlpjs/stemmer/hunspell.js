@@ -12,7 +12,7 @@ export default class Hunspell {
     /**
      * @constructor
      * @name nlpjs.stemmer.Hunspell
-     * @param {object} ruleset list of rules for stemming
+     * @param {Array<Function>} ruleset list of rules for stemming
      */
     constructor(ruleset){
         this.ruleset = ruleset;
@@ -42,7 +42,7 @@ export default class Hunspell {
     /**
      * Detects colliding rules
      * @name nlpjs.stemmer.Hunspell#collisions
-     * @returns {Array[Array]} groups of colliding rules
+     * @returns {Array<Array<Function>>} groups of colliding rules
      */
     collisions(){
         var collisions = [];
@@ -52,12 +52,47 @@ export default class Hunspell {
                 let that  = this.ruleset[i],
                     other = this.ruleset[j];
 
-                if (that.del === other.del){
+                if (that.add === other.add && (
+                        that.cond.toString().replace(that.del + '$', '') ===
+                        other.cond.toString().replace(other.del + '$', '')
+                    )){
                     collisions.push([that, other]);
                 }
             }
         }
         return collisions;
+    }
+
+    /**
+     * Calculates usage of rules on provided words
+     * @param {Array<String>} words list of words to test
+     * @returns {Array<Function>} sorted list of function with addition usage parameter
+     */
+    usage(words){
+        var usage = [];
+        for(let rule of this.ruleset){
+            rule.usage = rule.usage || 0;
+            usage.push(rule);
+            for (let word of words){
+                if (rule(word)){
+                    rule.usage += 1;
+                }
+            }
+        }
+        usage.sort(function(a, b){
+            return b.usage - a.usage;
+        });
+
+        return usage;
+    }
+
+    /**
+     * Change order of rules
+     */
+    resort(){
+        this.ruleset.sort(function(a, b){
+            return b.usage - a.usage;
+        });
     }
 
     /* ***************
@@ -93,6 +128,9 @@ export default class Hunspell {
             }
             return null;
         };
+        f.add = add;
+        f.del = del;
+        f.cond = cond;
         f.weight = weight;
         return f;
     }

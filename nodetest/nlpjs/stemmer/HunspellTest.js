@@ -21,7 +21,11 @@ describe('Hunspell', function(){
 
         stats.should.not.be.empty;
         stats[0].usage.should.be.greaterThan(0);
+    });
 
+
+    xit('should serialize to json and deserialize from it', function(){
+        throw "Not Implemented";
     });
 
     it('should calculate dict usage on testing data', function(){
@@ -56,7 +60,7 @@ describe('Hunspell', function(){
         areSame("pekárna", "pekárny", "pekárně");
     });
 
-    it('should create stemmer from cs affix rules and train it by sample file and dictionary', function(){
+    xit('should create stemmer from cs affix rules and train it by sample file and dictionary', function(){
         this.timeout(30000);
         var aff = fs.readFileSync(__dirname + '/assets/cs_CZ.aff.utf8.txt', {'encoding': 'utf-8'});
 

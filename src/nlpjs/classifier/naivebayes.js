@@ -131,8 +131,7 @@ export default class NaiveBayes {
         var features = this.significances(Infinity);
         for (var i = features.length-1; i >= 0; i--){
             var feature = features[i];
-            if (features.v <= threshold){
-                console.log(features);
+            if (feature.v <= threshold){
                 this.removeFeature(feature.f);
             }
         }

@@ -71,9 +71,8 @@ describe('Naive Bayes', function(){
             'A': ['aa', 'bb', 'aab', 'aab'],
             'B': ['aa', 'bb', 'bb', 'abb']
         });
-        classifier.significance('bb').should.be.above(0);
         classifier.removeUnsignificantFeatures();
-        classifier.significance('bb').should.be.exactly(0);
+        should.equal(classifier._model['aa'], undefined);
     });
 
 });

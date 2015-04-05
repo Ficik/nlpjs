@@ -1,4 +1,5 @@
 import Document from './Document';
+import AnnotationSet from './AnnotationSet.js';
 
 export default class HtmlDocument extends Document {
     /**
@@ -11,7 +12,7 @@ export default class HtmlDocument extends Document {
     constructor(name){
         super(name);
 
-        this.entityMap = {
+        var entityMap = {
             '&nbsp;': ' ',
             '&amp;' : '&',
             '&lt;'  : '<',
@@ -21,9 +22,9 @@ export default class HtmlDocument extends Document {
         };
 
         this.unescape = (function() {
-            var mapping = new RegExp('('+Object.keys(HtmlDocument.prototype.entityMap).join('|')+')');
+            var mapping = new RegExp('(' +Object.keys(entityMap).join('|')+')');
             return function(html) {
-                return html.replace(mapping, function(entity) { return HtmlDocument.prototype.entityMap[entity]; });
+                return html.replace(mapping, function(entity) { return entityMap[entity]; });
             };
         })();
     }

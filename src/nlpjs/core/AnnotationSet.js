@@ -1,12 +1,18 @@
 import Annotation from './Annotation';
 
+/**
+ * Annotations set provides access to
+ * Document annotation
+ * @class nlpjs.core.AnnotationSet
+ * @property {number} size number of annotations in set
+ * @property {nlpjs.core.Annotation} first first annotation in set
+ * @property {nlpjs.core.Annotation} last  last annotation in set
+ * @property {boolean} isEmpty emptiness of set
+ */
 class AnnotationSet {
 
     /**
-     * Annotations set provides access to
-     * Document annotation
      * @constructor
-     * @name nlpjs.core.AnnotationSet
      * @param {Document} document document this annotation belongs to
      * @param {object} [set] initial set of annotations
      */
@@ -42,7 +48,6 @@ class AnnotationSet {
     /**
      * Adds new annotation into set
      * @method
-     * @name nlpjs.core.AnnotationSet#add
      * @param {number} start index of start of the annotation
      * @param {number} end      index of end of the annotation
      * @param {string} type     type of annotation (html, pos, ie.)
@@ -105,10 +110,8 @@ class AnnotationSet {
 
     /**
      * Filters annotations by type
-     * @method
-     * @name nlpjs.core.AnnotationSet#type
      * @param  {string} type type of annotation
-     * @return {nlpjs.core.AnnotationSet} filtered set
+     * @returns {nlpjs.core.AnnotationSet} filtered set
      */
     type(type) {
         return this.filter(function(annotation){
@@ -190,63 +193,24 @@ class AnnotationSet {
         this._listeners[type].push(callback);
     }
 
-    /**
-     * First annotation of set
-     * @name first
-     * @memberof nlpjs.core.AnnotationSet
-     * @instance
-     * @readonly
-     * @type {object}
-     */
     get first() {
         return this._data[0];
     }
 
-
-    /**
-     * last annotation of set
-     * @name last
-     * @memberof nlpjs.core.AnnotationSet
-     * @instance
-     * @readonly
-     * @type {object}
-     */
     get last() {
         return this._data[this.size-1];
     }
 
-    /**
-     * Number of annotations in set
-     * @name size
-     * @memberof nlpjs.core.AnnotationSet
-     * @instance
-     * @readonly
-     * @type {number}
-     */
     get size() {
         return this._data.length;
     }
 
-    /**
-     * Number of annotations in set
-     * @name length
-     * @memberof nlpjs.core.AnnotationSet
-     * @instance
-     * @readonly
-     * @type {number}
-     */
+
     get length() {
         return this.size;
     }
 
-    /**
-     * Emptiness of set
-     * @name isEmpty
-     * @memberof nlpjs.core.AnnotationSet
-     * @instance
-     * @readonly
-     * @type {bool}
-     */
+
     get isEmpty() {
         return this.size === 0;
     }

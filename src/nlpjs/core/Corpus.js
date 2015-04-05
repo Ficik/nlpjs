@@ -1,13 +1,15 @@
 import Container from './Container';
 import AnnotationSet from './AnnotationSet';
 
+/**
+ * Corpus for language linguistic, that contains multiple documents
+ * and provides and provides methods to interact with all of them
+ * as a single document.
+ * @class nlpjs.core.Corpus
+ */
 export default class Corpus extends Container {
     /**
-     * Corpus for language linguistic, that contains multiple documents
-     * and provides and provides methods to interact with all of them
-     * as a single document.
      * @constructor
-     * @name nlpjs.core.Corpus
      * @param {string} name descriptive name of the corpus
      * @extends nlpjs.core.Container
      */
@@ -18,8 +20,6 @@ export default class Corpus extends Container {
     }
     /**
      * Adds document to corpus
-     * @method
-     * @name nlpjs.core.Corpus#add
      * @param {nlpjs.core.Document} doc [description]
      */
     add(doc) {

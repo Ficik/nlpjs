@@ -1,5 +1,6 @@
 /**
  * Naive Bayes classifiers
+ * @class nlpjs.classifier.NaiveBayes
  */
 export default class NaiveBayes {
 

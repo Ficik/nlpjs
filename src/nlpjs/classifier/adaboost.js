@@ -1,13 +1,11 @@
 
 /**
  * Implementation of Discrete AdaBoost algorithm
- * @name nlpjs.classifier.AdaBoost
- * @class
+ * @class nlpjs.classifier.AdaBoost
  */
 export default class AdaBoost {
 
     /**
-     *
      * @constructor
      * @param classes
      * @properties {object} _classes

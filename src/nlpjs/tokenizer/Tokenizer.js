@@ -1,5 +1,5 @@
 import { l2m } from '../helpers/structures.js';
-import removeAccent from '../helpers/removAccent.js';
+import removeAccent from '../helpers/removeAccent.js';
 import AnnotationSet from '../core/AnnotationSet.js';
 
 /**

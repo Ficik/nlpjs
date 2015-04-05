@@ -1,6 +1,6 @@
 /**
  * N-gram frequency analysis
- * @name nlpjs.classifier.NGram
+ * @class nlpjs.classifier.NGram
  * @property {object} model
  */
 export default class NGram {
@@ -29,7 +29,7 @@ export default class NGram {
     /**
      *
      * @param {string} text
-     * @param {number} threshold
+     * @param {number} [threshold]
      * @returns {string} label of class
      */
     classify(text, threshold = 0){
@@ -136,7 +136,7 @@ export default class NGram {
     /**
      * N-gram frequency analysis
      * @method
-     * @param  {string} text text to be analysed
+     * @param  {string} input text to be analysed
      * @param  {number} n smallest ngram size
      * @param  {number} [m] larges ngram size, if not provided equals to n
      * @return {object}   ngram frequencies

@@ -3,8 +3,7 @@ var justMatch = function(_, match){
     return match;
 };
 /**
- * @class
- * @name nlpjs.stemmer.Hunspell
+ * @class nlpjs.stemmer.Hunspell
  * @property {Array} ruleset
  * @property {{stem: {usage: int, cls: string}}} dict
  */
@@ -12,7 +11,6 @@ export default class Hunspell {
 
     /**
      * @constructor
-     * @name nlpjs.stemmer.Hunspell
      * @param {Array<Function>} ruleset list of rules for stemming
      */
     constructor(ruleset){
@@ -25,7 +23,6 @@ export default class Hunspell {
 
     /**
      * creates stem from word
-     * @name nlpjs.stemmer.Hunspell#stem
      * @param {string} word
      * @param {boolean} useDict use dictionary if available
      * @returns {string}
@@ -254,7 +251,6 @@ export default class Hunspell {
     }
 
     /**
-     * @name nlpjs.stemmer.Hunspell.fromAffix
      * @param {string} content
      * @returns {nlpjs.stemmer.Hunspell}
      */

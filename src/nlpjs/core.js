@@ -1,3 +1,7 @@
+/**
+ * @namespace nlpjs.core
+ */
+
 export {AnnotationSet} from './core/AnnotationSet';
 export {Container} from './core/Container';
 export {Corpus} from './core/Corpus';

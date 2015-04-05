@@ -2,14 +2,12 @@
 var justMatch = function(_, match){
     return match;
 };
-/**
- * @class nlpjs.stemmer.Hunspell
- * @property {Array} ruleset
- * @property {{stem: {usage: int, cls: string}}} dict
- */
 export default class Hunspell {
 
     /**
+     * @class nlpjs.stemmer.Hunspell
+     * @property {Array} ruleset
+     * @property {{stem: {usage: int, cls: string}}} dict
      * @constructor
      * @param {Array<Function>} ruleset list of rules for stemming
      */
@@ -23,6 +21,7 @@ export default class Hunspell {
 
     /**
      * creates stem from word
+     * @method nlpjs.stemmer.Hunspell#stem
      * @param {string} word
      * @param {boolean} useDict use dictionary if available
      * @returns {string}
@@ -60,7 +59,7 @@ export default class Hunspell {
 
     /**
      * Detects colliding rules
-     * @name nlpjs.stemmer.Hunspell#collisions
+     * @method nlpjs.stemmer.Hunspell#collisions
      * @returns {Array<Array<Function>>} groups of colliding rules
      */
     collisions(){
@@ -83,7 +82,7 @@ export default class Hunspell {
     }
 
     /**
-     *
+     * @method nlpjs.stemmer.Hunspell#removeRules
      * @param {Array<Number>|Array<{id:Number}>}rules
      */
     removeRules(rules){
@@ -99,6 +98,7 @@ export default class Hunspell {
 
     /**
      * Removes colliding rules based on their usage
+     * @method nlpjs.stemmer.Hunspell#removeCollidingRules
      */
     removeCollidingRules(){
         var collisions = this.collisions();
@@ -111,6 +111,7 @@ export default class Hunspell {
 
     /**
      * Removes rules with usage below threshold
+     * @method nlpjs.stemmer.Hunspell#removeUnusedRules
      * @param {number} threshold default is 0
      */
     removeUnusedRules(threshold = 0){
@@ -121,6 +122,7 @@ export default class Hunspell {
 
     /**
      * Removes dict entries with usage below threshold
+     * @method nlpjs.stemmer.Hunspell#removeUnusedDictEntries
      * @param {number} threshold default is 0
      */
     removeUnusedDictEntries(threshold = 0){
@@ -139,6 +141,7 @@ export default class Hunspell {
 
     /**
      * Calculates usage of rules on provided words
+     * @method nlpjs.stemmer.Hunspell#usage
      * @param {Array<String>} words list of words to test
      * @param {boolean} sort sort returned statistic by usage
      * @returns {Array<Function>} sorted list of function with addition usage parameter
@@ -184,6 +187,7 @@ export default class Hunspell {
 
     /**
      * Change order of rules
+     * @method nlpjs.stemmer.Hunspell#resort
      */
     resort(){
         this.ruleset.sort(function(a, b){
@@ -194,6 +198,7 @@ export default class Hunspell {
 
     /**
      * Hunspell dic file parser
+     * @method nlpjs.stemmer.Hunspell#dictionary
      * @param dictionary
      */
     dictionary(dictionary){
@@ -215,7 +220,7 @@ export default class Hunspell {
      * ***************/
 
     /**
-     * @name nlpjs.stemmer.Hunspell.createRule
+     * @method nlpjs.stemmer.Hunspell.createRule
      * @returns {nlpjs.stemmer.Hunspell}
      */
     static createRule(suffix, del, add, cond) {
@@ -251,6 +256,7 @@ export default class Hunspell {
     }
 
     /**
+     * @method nlpjs.stemmer.Hunspell.fromAffix
      * @param {string} content
      * @returns {nlpjs.stemmer.Hunspell}
      */

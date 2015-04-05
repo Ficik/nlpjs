@@ -1,12 +1,13 @@
-/**
- * N-gram frequency analysis
- * @class nlpjs.classifier.NGram
- * @property {object} model
- */
 export default class NGram {
 
     /**
-     * @constructor
+     * N-gram frequency analysis
+     * @class nlpjs.classifier.NGram
+     * @property {object} model
+     * @param {Object.<string,Array>} model
+     * @param {number} n
+     * @param {number} m
+     * @param {number} [top]
      */
     constructor(model, n, m, top = Infinity){
         this.model = model;
@@ -27,7 +28,8 @@ export default class NGram {
     }
 
     /**
-     *
+     * Classify text
+     * @method nlpjs.classifier.NGram#classify
      * @param {string} text
      * @param {number} [threshold]
      * @returns {string} label of class
@@ -48,7 +50,7 @@ export default class NGram {
     }
 
     /**
-     *
+     * @method nlpjs.classifier.NGram#scores
      * @param {string} text text to calculate score from
      * @returns {{}}
      */
@@ -67,6 +69,7 @@ export default class NGram {
 
     /**
      * Serialized model to json
+     * @method nlpjs.classifier.NGram#toJSON
      * @retuns {string} json
      */
     toJSON(){
@@ -89,6 +92,7 @@ export default class NGram {
 
     /**
      * Deserialize model from json
+     * @method nlpjs.classifier.NGram.fromJSON
      * @param {string} json
      */
     static fromJSON(json){
@@ -102,6 +106,14 @@ export default class NGram {
     }
 
 
+    /**
+     * @method nlpjs.classifier.NGram.fromText
+     * @static
+     * @param models
+     * @param n
+     * @param m
+     * @param top
+     */
     static fromText(models, n, m, top){
         var model = {};
         for (var label in models){
@@ -112,12 +124,23 @@ export default class NGram {
         return new NGram(model, n, m, top);
     }
 
+    /**
+     * @method nlpjs.classifier.NGram.ranked
+     * @param model
+     * @returns {Array}
+     */
     static ranked(model){
         var list = NGram.stats(model);
         list.sort((a,b) => (a.c > b.c) ? -1 : ((a.c < b.c) ? 1 : (a.w < b.w ? -1 : 1)));
         return list.map((x) => x.w) ;
     }
 
+    /**
+     * @method nlpjs.classifier.NGram.distance
+     * @param a
+     * @param b
+     * @returns {number}
+     */
     static distance(a, b){
         var size = a.length;
         var j;
@@ -135,7 +158,7 @@ export default class NGram {
 
     /**
      * N-gram frequency analysis
-     * @method
+     * @method nlpjs.classifier.NGram.compute
      * @param  {string} input text to be analysed
      * @param  {number} n smallest ngram size
      * @param  {number} [m] larges ngram size, if not provided equals to n
@@ -177,6 +200,7 @@ export default class NGram {
     /**
      * N-gram frequency analysis with
      * frequency statistics, counts and rank
+     * @method nlpjs.classifier.NGram.stats
      * @return {Object[]} with keys f, w, r, c
      */
     static stats(ngrams) {

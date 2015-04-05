@@ -2,20 +2,17 @@ export default class Container {
 
     /**
      * Generic data container
-     * @constructor
-     * @name nlpjs.core.Container
+     * @class nlpjs.core.Container
      * @param {string} name name of the container
+     * @property {string} name
      */
     constructor(name){
         this._name = name;
     }
 
     /**
-     * Descriptive name of this Container
      * @readonly
-     * @memberof nlpjs.core.Container
-     * @name nlpjs.core.Container#name
-     * @type {string}
+     * @returns {Container.name}
      */
     get name(){
         return this._name;

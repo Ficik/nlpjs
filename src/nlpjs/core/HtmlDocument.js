@@ -4,8 +4,7 @@ import AnnotationSet from './AnnotationSet.js';
 export default class HtmlDocument extends Document {
     /**
      * Creates new document
-     * @constructor
-     *  @name nlpjs.core.Document
+     * @class nlpjs.core.HtmlDocument
      * @param {string} name - human readable name of the document
      * @extends nlpjs.core.Container
      */
@@ -30,7 +29,7 @@ export default class HtmlDocument extends Document {
     }
 
     /**
-     * @memberof nlpjs.core.HtmlDocument
+     * @memberof nlpjs.core.HtmlDocument#text
      * @type {string}
      * @returns {string}
      */
@@ -42,7 +41,7 @@ export default class HtmlDocument extends Document {
      *
      * html se to this property is parsed, html added to
      * annotations and just plaintext is left
-     * @name text
+     * @name nlpjs.core.HtmlDocument#text
      * @memberof nlpjs.core.HtmlDocument
      * @instance
      * @type {string}

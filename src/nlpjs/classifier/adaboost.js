@@ -1,12 +1,8 @@
-
-/**
- * Implementation of Discrete AdaBoost algorithm
- * @class nlpjs.classifier.AdaBoost
- */
 export default class AdaBoost {
 
     /**
-     * @constructor
+     * @class nlpjs.classifier.AdaBoost
+     * @classdesc Implementation of Discrete AdaBoost algorithm
      * @param classes
      * @properties {object} _classes
      * @properties {Array} _classifiers
@@ -19,6 +15,7 @@ export default class AdaBoost {
 
     /**
      * Add weak classifier
+     * @method nlpjs.classifier.AdaBoost#addWeakClassifier
      * @param {function} classifier
      * @param {number} weight classifier contribution to classification
      * @param {string} label name of classifier
@@ -29,7 +26,9 @@ export default class AdaBoost {
     }
 
     /**
-     *
+     * @method nlpjs.classifier.AdaBoost#train
+     * @param {Array} classA positive set
+     * @param {Array} classB negative set
      */
     train(classA, classB){
         var x = classA.concat(classB);
@@ -78,7 +77,8 @@ export default class AdaBoost {
 
     /**
      * Perform classification
-     * @param feature
+     * @method nlpjs.classifier.AdaBoost#classify
+     * @param {*} feature
      */
     classify(feature){
         var score = 0;

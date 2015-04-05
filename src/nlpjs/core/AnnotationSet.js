@@ -1,19 +1,19 @@
 import Annotation from './Annotation';
 
 /**
- * Annotations set provides access to
- * Document annotation
- * @class nlpjs.core.AnnotationSet
- * @property {number} size number of annotations in set
- * @property {nlpjs.core.Annotation} first first annotation in set
- * @property {nlpjs.core.Annotation} last  last annotation in set
- * @property {boolean} isEmpty emptiness of set
+ * @namespace nlpjs.core.AnnotationSet
  */
-class AnnotationSet {
+export default class AnnotationSet {
 
     /**
-     * @constructor
-     * @param {Document} document document this annotation belongs to
+     * Annotations set provides access to
+     * Document annotation
+     * @class nlpjs.core.AnnotationSet
+     * @property {number} size number of annotations in set
+     * @property {nlpjs.core.Annotation} first first annotation in set
+     * @property {nlpjs.core.Annotation} last  last annotation in set
+     * @property {boolean} isEmpty emptiness of set
+     * @param {nlpjs.core.Document} document document this annotation belongs to
      * @param {object} [set] initial set of annotations
      */
     constructor(document, set){
@@ -34,27 +34,30 @@ class AnnotationSet {
     }
 
     /**
-     * @function
-     * @name nlpjs.core.AnnotationSet:createAnnotation
+     * @method nlpjs.core.AnnotationSet#createAnnotation
+     * @static
      */
     static createAnnotation(start, end, type, features){
         return new Annotation(undefined, start, end, type, features);
     }
 
+    /**
+     * @method nlpjs.core.AnnotationSet#cloneAnnotation
+     * @static
+     */
     static cloneAnnotation(annotation){
         return annotation.clone();
     }
 
     /**
      * Adds new annotation into set
-     * @method
+     * @method nlpjs.core.AnnotationSet#add
      * @param {number} start index of start of the annotation
      * @param {number} end      index of end of the annotation
      * @param {string} type     type of annotation (html, pos, ie.)
-     * @param {object} features object containg featurs of annotation
+     * @param {object} features object containing features of annotation
      * @returns {nlpjs.core.AnnotationSet} self for chaining
      */
-
     add(start, end, type, features) {
         var annotation, i, ii;
         if (arguments.length > 1){
@@ -81,9 +84,8 @@ class AnnotationSet {
     }
 
     /**
-     *
-     * @name nlpjs.core.AnnotationSet#del
-     * @param {Annotation|[Annotation]} annotations
+     * @method nlpjs.core.AnnotationSet#del
+     * @param {Annotation|Array<Annotation>} annotations
      * @returns {AnnotationSet}
      */
     del(annotations){
@@ -110,6 +112,7 @@ class AnnotationSet {
 
     /**
      * Filters annotations by type
+     * @method nlpjs.core.AnnotationSet#type
      * @param  {string} type type of annotation
      * @returns {nlpjs.core.AnnotationSet} filtered set
      */
@@ -121,8 +124,7 @@ class AnnotationSet {
 
     /**
      * Returns annotations at least partially overlapping selection
-     * @method
-     * @name nlpjs.core.AnnotationSet#get
+     * @method nlpjs.core.AnnotationSet#get
      * @param  {number} startOffset index of start of selection
      * @param  {number} endOffset   index of end of selection
      * @return {nlpjs.core.AnnotationSet} filtered set
@@ -131,8 +133,7 @@ class AnnotationSet {
      * Returns first annotation that starts at or after
      * index and all other annotations
      * that starts at index of found annotation
-     * @method
-     * @name nlpjs.core.AnnotationSet#get
+     * @method nlpjs.core.AnnotationSet#get
      * @param  {number} startOffset index
      * @return {nlpjs.core.AnnotationSet} filtered set
      */
@@ -158,8 +159,7 @@ class AnnotationSet {
     }
 
     /**
-     * @method
-     * @name nlpjs.core.AnnotationSet#filter
+     * @method nlpjs.core.AnnotationSet#filter
      * @param  {function} pred filtering predicate
      * @return {nlpjs.core.AnnotationSet} filtered set
      */
@@ -168,8 +168,7 @@ class AnnotationSet {
     }
 
     /**
-     * @method
-     * @name nlpjs.core.AnnotationSet#each
+     * @method nlpjs.core.AnnotationSet#each
      * @param  {function} fb callback (annotation and index is provided)
      * @return {nlpjs.core.AnnotationSet} self for chaining
      */
@@ -180,6 +179,11 @@ class AnnotationSet {
         return this;
     }
 
+    /**
+     * @method nlpjs.core.AnnotationSet#map
+     * @param fn
+     * @returns {Array}
+     */
     map(fn){
         var arr = [];
         for (var i = 0, ii = this._data.length; i < ii; i += 1){
@@ -188,33 +192,58 @@ class AnnotationSet {
         return arr;
     }
 
+    /**
+     * Subscribe to changes
+     * @method nlpjs.core.AnnotationSet#listen
+     * @param type
+     * @param callback
+     */
     listen(type, callback) {
         this._listeners[type] = this._listeners[type] || [];
         this._listeners[type].push(callback);
     }
 
+    /**
+     * @readOnly
+     */
     get first() {
         return this._data[0];
     }
 
+    /**
+     * @readOnly
+     */
     get last() {
         return this._data[this.size-1];
     }
 
+    /**
+     * @readOnly
+     */
     get size() {
         return this._data.length;
     }
 
 
+    /**
+     * @readOnly
+     */
     get length() {
         return this.size;
     }
 
 
+    /**
+     * @readOnly
+     */
     get isEmpty() {
         return this.size === 0;
     }
 
+    /**
+     * @private
+     * @name nlpjs.core.AnnotationSet#_sort
+     */
     _sort(){
         this._data.sort(function(a, b){
             if (a.start < b.start)
@@ -233,5 +262,3 @@ class AnnotationSet {
 
 }
 
-
-export default AnnotationSet;

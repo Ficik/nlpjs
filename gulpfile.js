@@ -36,11 +36,17 @@ gulp.task('test', 'runs tests using mocha and blanket', [], function(){
   return stream;
 });
 
-gulp.task('docs', 'generates documentation into doc dir', function(){
+gulp.task('docs', 'generates documentation into doc dir', ['clean'], function(){
     return gulp.src('src/**/*.js')
                .pipe($gulp.plumber())
                .pipe($gulp.babel())
-               .pipe($gulp.jsdoc('docs'));
+               .pipe($gulp.jsdoc('docs', {
+                    path: 'ink-docstrap',
+                    inverseNav: true,
+                    theme: "superhero"},
+                {
+                    name: 'NLP.js'
+                }));
 });
 
 gulp.task('clean', 'removes build files', function(cb){

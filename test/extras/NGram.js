@@ -33,7 +33,7 @@ require(['nlpjs/extras/NGram', 'nlpjs/core/Document'], function(NGram, Document)
 		});
 
 		it('should import data from url', function(done){
-			var promise = NGram.importUrl('../assets/ngram.model.js');
+			var promise = NGram.importUrl('../assets/ngram.model.json');
 			promise.then(function(x){
 					x.should.have.property('cs').which.is.an.Array;
 					done();
@@ -45,7 +45,7 @@ require(['nlpjs/extras/NGram', 'nlpjs/core/Document'], function(NGram, Document)
 		it('should detect text as czech', function(done){
 			var doc = new Document('czech');
 			doc.text = czech;
-			NGram.importUrl('../assets/ngram.model.js').then(function(model){
+			NGram.importUrl('../assets/ngram.model.json').then(function(model){
 				var results = NGram.compare(doc, 300, 2, 3)(model.cs, model.en, model.sk);
 				console.log(results);
 				results[0].should.be.below(results[1]).and.below(results[2]);

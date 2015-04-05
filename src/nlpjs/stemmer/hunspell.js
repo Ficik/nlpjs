@@ -215,15 +215,54 @@ export default class Hunspell {
         }
     }
 
+
+    /**
+     * Serialize current state to json
+     * @method nlpjs.stemmer.Hunspell#toJSON
+     * @returns {string} json
+     */
+    toJSON(){
+        var dict = "";
+        for(var word in this.dict){
+            if (this.dict.hasOwnProperty(word)) {
+                dict += word + "/" + this.dict[word].cls + "\n";
+            }
+        }
+        var json = {
+            r: this.ruleset.map((x) => x.original),
+            d: dict
+        };
+        return JSON.stringify(json);
+    }
+
     /* ***************
      * Static methods
      * ***************/
+
+    /**
+     * Deserialize fromJSON
+     * @method nlpjs.stemmer.Hunspell.fromJSON
+     * @param {string} json
+     */
+    static fromJSON(json){
+        var data = JSON.parse(json);
+        var ruleset = data.r.map((x) => Hunspell.createRule(x.s, x.d, x.a, x.c));
+        var stemmer = new Hunspell(ruleset);
+        stemmer.dictionary(data.d);
+        return stemmer;
+    }
 
     /**
      * @method nlpjs.stemmer.Hunspell.createRule
      * @returns {nlpjs.stemmer.Hunspell}
      */
     static createRule(suffix, del, add, cond) {
+        var original = {
+            s: suffix,
+            d: del,
+            a: add,
+            c: cond
+        };
         var rule, weight;
         var d = parseInt(del);
         if (!isNaN(d)) {
@@ -248,10 +287,12 @@ export default class Hunspell {
             }
             return null;
         };
+        f.suffix = suffix;
         f.add = add;
         f.del = del;
         f.cond = cond;
         f.weight = weight;
+        f.original = original;
         return f;
     }
 

@@ -23,11 +23,6 @@ describe('Hunspell', function(){
         stats[0].usage.should.be.greaterThan(0);
     });
 
-
-    xit('should serialize to json and deserialize from it', function(){
-        throw "Not Implemented";
-    });
-
     it('should calculate dict usage on testing data', function(){
         var aff = fs.readFileSync(__dirname + '/assets/cs_CZ.aff.utf8.txt', {'encoding': 'utf-8'});
         var stemmer = Hunspell.fromAffix(aff);
@@ -37,6 +32,16 @@ describe('Hunspell', function(){
         var stats = stemmer.usage(sample.split(' '));
 
         stemmer.dict['nádoba'].usage.should.be.above(0);
+    });
+
+    it('should serialize to json and deserialize from it', function(){
+        var aff = fs.readFileSync(__dirname + '/assets/cs_CZ.aff.utf8.txt', {'encoding': 'utf-8'});
+        var stemmer = Hunspell.fromAffix(aff);
+        stemmer.dictionary(fs.readFileSync(__dirname + '/assets/cs_CZ.dic.utf8.txt', {'encoding': 'utf-8'}));
+
+        var json = stemmer.toJSON();
+        var deserialized = Hunspell.fromJSON(json);
+
     });
 
     it('should find correct rule using full dictionary', function(){
@@ -103,6 +108,7 @@ describe('Hunspell', function(){
         areSame("pekárna", "pekárny", "pekárně");
 
     });
+
 });
 
 

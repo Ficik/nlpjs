@@ -24,6 +24,15 @@ export default class Corpus extends Container {
      */
     add(doc) {
         var buffer = [];
+        doc.annotations.each(function(annotation){
+            buffer.push(annotation);
+        });
+
+        doc.annotations.listen('add', function(a){
+            addAnnotations(a);
+        });
+
+
         var addAnnotations = (function(offset, self){
             return function(ann){
                 ann = ann.map(function(a){
@@ -36,17 +45,8 @@ export default class Corpus extends Container {
             };
         })(this.text.length, this);
 
-        doc.annotations.each(function(annotation){
-            buffer.push(annotation);
-        });
-
-        doc.annotations.listen('add', function(a){
-            addAnnotations(a);
-        });
-
         this._documents.push(doc);
         addAnnotations(buffer);
-
         return this;
     }
     /**

@@ -34,13 +34,13 @@ export default class NGram {
      * @param {number} [threshold]
      * @returns {string} label of class
      */
-    classify(text, threshold = 0){
+    classify(text, threshold = Infinity){
         var scores = this.scores(text);
         var min = Infinity;
         var minLabel = null;
         for (var label in scores){
             if (scores.hasOwnProperty(label)){
-                if (scores[label] < min){
+                if (scores[label] < min && scores[label]/this.top < threshold){
                     min = scores[label];
                     minLabel = label;
                 }
@@ -55,7 +55,7 @@ export default class NGram {
      * @returns {{}}
      */
     scores(text){
-        var sample = NGram.ranked(NGram.compute(text, this.n, this.m));
+        var sample = NGram.ranked(NGram.compute(text, this.n, this.m)).splice(0, this.top);
         var scores = {};
         for (var label in this.model){
             if (this.model.hasOwnProperty(label)){

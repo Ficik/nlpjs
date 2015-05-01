@@ -239,13 +239,16 @@ export default class Hunspell {
      * Static methods
      * ***************/
 
+    static fromJSON(json) {
+        Hunspell.load(JSON.parse(json));
+    }
+
     /**
      * Deserialize fromJSON
      * @method nlpjs.stemmer.Hunspell.fromJSON
      * @param {string} json
      */
-    static fromJSON(json){
-        var data = JSON.parse(json);
+    static load(data){
         var ruleset = data.r.map((x) => Hunspell.createRule(x.s, x.d, x.a, x.c));
         var stemmer = new Hunspell(ruleset);
         stemmer.dictionary(data.d);
@@ -306,6 +309,7 @@ export default class Hunspell {
         var regex = /(SFX|PFX)\s+([A-Z])\s+([A-Z])?\s+(\S+)\s+(\S+)\s+(.+)$/;
         var rules = [];
         for (let line of lines) {
+            line = line.split('#')[0].trim();
             let match = line.match(regex);
             if (match){
                 let type = match[1];

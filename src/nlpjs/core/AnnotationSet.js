@@ -174,7 +174,8 @@ export default class AnnotationSet {
      */
     each(fn) {
         for (var i = 0, ii = this._data.length; i < ii; i += 1){
-            fn.call(fn, this._data[i], i);
+            if (this._data[i].start >= 0 && this._data[i].end >= 0)
+                fn.call(fn, this._data[i], i);
         }
         return this;
     }

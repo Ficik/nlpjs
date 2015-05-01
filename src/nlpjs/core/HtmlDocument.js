@@ -17,15 +17,25 @@ export default class HtmlDocument extends Document {
             '&lt;'  : '<',
             '&gt;'  : '>',
             '&quot;': '"',
-            '&#x27;': "'"
+            '&#x27;': "'",
+            '&#39;' : "'"
         };
 
-        this.unescape = (function() {
-            var mapping = new RegExp('(' +Object.keys(entityMap).join('|')+')');
-            return function(html) {
-                return html.replace(mapping, function(entity) { return entityMap[entity]; });
-            };
-        })();
+        if (typeof(document) !== 'undefined') {
+            var unescapeDiv = document.createElement('div');
+        }
+
+        this.unescape = function(html){
+            return html.replace(/&#?[a-zA-Z0-9]+;/g, function(match){
+                if (!entityMap[match] && unescapeDiv){
+                    unescapeDiv.innerHTML = match;
+                    entityMap[match] = unescapeDiv.textContent || unescapeDiv.innerText;
+                    console.log(entityMap);
+                }
+                return entityMap[match];
+            });
+        };
+
     }
 
     /**
@@ -111,7 +121,7 @@ export default class HtmlDocument extends Document {
      */
     _cleanupHtml(html) {
         return html.replace(/\n|\r/g, ' ')
-            .replace(/<((?:script)|(?:style)).+?<\/\1>/gi, '') //remove scripts and style
+            .replace(/<(noscript|script|style).+?<\/\1>/gi, '') //remove scripts and style
             .replace(/<!--.+?-->/gi, '') //remove html comments
             .replace(/<!\[CDATA\[.+?\]\]>/gi, '') //remove CDATA
             .replace(/\s+/g,' ');

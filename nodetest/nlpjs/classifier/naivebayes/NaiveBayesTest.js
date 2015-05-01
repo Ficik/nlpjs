@@ -75,4 +75,26 @@ describe('Naive Bayes', function(){
         should.equal(classifier._model['aa'], undefined);
     });
 
+    it('classify as background', function(){
+        var classifier = new NaiveBayes();
+        var diff = function(prob){
+            return prob.positive - prob.background;
+        };
+
+        classifier.train({
+            'background': ['bc', 'cc'],
+            'positive': ['aa']
+        });
+        classifier.addClassifiedOccurrences('positive', ['bb']);
+        classifier.addClassifiedOccurrences('positive', ['bb', 'bb']);
+        classifier.addClassifiedOccurrences('positive', ['abb', 'abb']);
+
+        console.log(diff(classifier.probabilities(['bb', 'abb'])));
+        console.log(diff(classifier.probabilities(['bb', 'bb'])));
+        console.log(diff(classifier.probabilities(['cc', 'aa', 'aa', 'bc','abb'])));
+        console.log(diff(classifier.probabilities(['cc', 'cd'])));
+        console.log(diff(classifier.probabilities(['cc', 'cd', 'ac', 'cb'])));
+
+    });
+
 });

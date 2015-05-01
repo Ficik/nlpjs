@@ -23,8 +23,8 @@ export default class NaiveBayes {
      * @param {Array} features set of features of object being classified
      * @return {*} class of assign to these features
      */
-    classify(features){
-        var probabilities = this.probabilities(features);
+    classify(features, priors={}){
+        var probabilities = this.probabilities(features, priors);
         var mostLikelyClass = null, bestValue = 0;
         for (let key in probabilities){
             if (probabilities.hasOwnProperty(key)){
@@ -41,12 +41,13 @@ export default class NaiveBayes {
      * Probabilities of feature belonging to class for each known classes
      * @method nlpjs.classifier.NaiveBayes#probabilities
      * @param {*} features
+     * @param {number} prior force prior probability
      */
-    probabilities(features){
+    probabilities(features, priors={}){
         var probabilities = {};
         for (let cls in this._classes){
             if (this._classes.hasOwnProperty(cls) && cls !== 'total') {
-                probabilities[cls] = (this._classes[cls].docs || 0) / (this._classes.total || 1);
+                probabilities[cls] = priors[cls]||(this._classes[cls].docs || 0) / (this._classes.total || 1);
                 for (let feature of features) {
                     probabilities[cls] *= this.classProbability(cls, feature);
                 }
@@ -89,9 +90,11 @@ export default class NaiveBayes {
      * @param {Array} featureSet list of feature that occurred
      */
     addClassifiedOccurrences(cls, featureSet){
+        var feature;
         if (!this._classes[cls])
             this._classes[cls] = {};
-        for (let feature of featureSet) {
+        for (var i=0, ii = featureSet.length; i<ii; i++) {
+            feature = featureSet[i];
             if (!this._model[feature]) {
                 this._model[feature] = {};
                 this._unique_features += 1;
@@ -205,6 +208,10 @@ export default class NaiveBayes {
         } else {
             return (max - min) / max;
         }
+    }
+
+    toJSON(){
+        return JSON.stringify(this.save());
     }
 
     /**

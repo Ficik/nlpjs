@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: db/sparql.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: db/sparql.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @author Stanislav Fifik &lt;stanislav.fifik@designeo.cz>
+ */
+/**
+ * Set of tools for quering SPARQL endpoints
+ * @namespace nlpjs.db.sparql
+ * @memberOf nlpjs.db
+ */
+
+
+/**
+ * @class Query
+ * @memberOf nlpjs.db.sparql
+ * @param {string} query query to perform
+ * @property {string} query query to perform
+ * @property {object} prefixes prefixes available to the query
+ * @description
+ * Sparql query wrapper.
+ * For now just simplifies prefix management, by allowing setting prefixes separatelly from query
+ * @example //Create query with prefixes
+ * var query = new Query();
+ * query.prefixes['dbpprop'] = 'http://dbpedia.org/property/';
+ * query.prefixes['unused'] = 'http://unused/';
+ * query.query = "prefix dbpedia: &lt;http://dbpedia.org/resource/> \
+ *                Select ? name Where { dbpedia:SPARQL dbpprop:name ?name.}";
+ * var built = query.toString();
+ * // => prefix dbpedia: &lt;http://dbpedia.org/resource/>
+ * //    prefix dbpprop: &lt;http://dbpedia.org/property/>
+ * //    Select ? name Where { dbpedia:SPARQL dbpprop:name ?name.}
+ */
+export class Query {
+
+    constructor(query){
+        this._query = query;
+        this.prefixes = {};
+    }
+
+    set query(query){
+        var prefixes = this.prefixes;
+        this._query = query.replace(/prefix\s+([^:]+):\s+&lt;([^>]+)>$/g, function(match, prefix, url){
+            prefixes[prefix] = url;
+            return '';
+        });
+        return query;
+    }
+
+    get query(){
+        return this._query;
+    }
+
+    /**
+     * Builds query to string
+     * @name nlpjs.db.sparql.Query#toString
+     * @return {string}
+     */
+    toString(){
+        var query = '';
+        var usedPrefixes = {};
+
+        this.query.replace(/(\S+):(\S+)/g, function(match, prefix, value){
+            usedPrefixes[prefix] = true;
+        });
+
+        for (var prefix in this.prefixes) {
+            if(this.prefixes.hasOwnProperty(prefix) &amp;&amp; usedPrefixes[prefix]){
+                query += `prefix ${prefix}: &lt;${this.prefixes[prefix].replace(/^&lt;|>$/g, '')}>\n`;
+            }
+        }
+
+        query += this.query;
+        return query;
+    }
+}
+
+/**
+ * @class Endpoint
+ * @memberOf nlpjs.db.sparql
+ * @property {string} url
+ * @property {boolean} jsonp - Whether query should be done using jsonp (currently only supported method)
+ * @param {string} url query template with %query% placeholder for query
+ * @param {boolean} jsonp use jsonp for quering
+ * @description
+ * Sparql enpoint wrapper.
+ * Allows to query the endpoint at defined url and provides access to endpoint customized Query object
+ */
+export default class Endpoint {
+
+
+    constructor(url, jsonp = true){
+        this.url = url;
+        this.jsonp = jsonp;
+    }
+
+    /**
+     * @method nlpjs.db.sparql.Endpoint.query
+     * @param {nlpjs.db.sparql.Query|string}  query
+     * @returns {Promise&lt;json>} promise of json formated result
+     */
+    query(query){
+        query = this._sanitizeQuery(query.toString());
+        if (this.jsonp) {
+            return this._doJSONP(this.url.replace('%query%', query));
+        }
+    }
+
+    /**
+     * Transform query to get parameter encoding
+     * @method nlpjs.db.sparql.Endpoint._sanitizeQuery
+     * @param query
+     * @private
+     * @returns {string}
+     */
+    _sanitizeQuery(query){
+        return encodeURIComponent(query)
+            .replace(/%20/g, '+')
+            .replace(/\++/g, '+');
+    }
+
+
+    /**
+     * Do jsonp request
+     * @method nlpjs.db.sparql.Endpoint._doJSONP
+     * @param url
+     * @returns {Promise}
+     * @private
+     */
+    _doJSONP(url){
+        var self = this;
+        return new Promise(function(resolve, error){
+            var script = document.createElement('script');
+            var callbackName = self._createSafeCallback(function(data) {
+                document.head.removeChild(script);
+                resolve(data);
+            });
+            script.src = `${url}&amp;callback=${callbackName}`;
+            script.onerror = error;
+            document.head.appendChild(script);
+        });
+    }
+
+    /**
+     * Endpoint customized query object
+     * @method nlpjs.db.sparql.Endpoint.getQuery
+     * @return {nlpjs.db.sparql.Query}
+     */
+    getQuery(){
+        return new Query();
+    }
+
+    /**
+     * @method nlpjs.db.sparql.Endpoint._createSafeCallback
+     * @param fn
+     * @private
+     */
+    _createSafeCallback(fn){
+        var name = `sparql${Date.now()}${Math.floor(Math.random()*100)}`;
+        window[name] = function(data){
+            fn(data);
+            delete(window[name]);
+        };
+        return name;
+    }
+
+}
+
+/**
+ * dbpedia.org endpoint wrapper
+ * @class DBPediaEndpoint
+ * @memberOf nlpjs.db.sparql
+ * @param {string} lang language mutation of enpoint. Two letter codes are expected
+ * @extends Endpoint
+ */
+export class DBPediaEndpoint extends Endpoint {
+
+    /**
+     *
+     */
+    constructor(lang){
+        if (lang){
+            super(`http://${lang}.dbpedia.org/sparql?query=%query%&amp;format=application%2Fjson`, true);
+        } else {
+            super(`http://dbpedia.org/sparql?query=%query%&amp;format=application%2Fjson`, true);
+        }
+    }
+
+    /**
+     * Query with preset commonly used prefixes on dbpedia
+     * @method nlpjs.db.sparql.DBPediaEndpoint.getQuery
+     * @returns {nlpjs.db.sparql.Query}
+     */
+    getQuery(){
+        var query = super.getQuery();
+        query.prefixes.dbpedia        = 'http://dbpedia.org/resource/';
+        query.prefixes['dbpedia-owl'] = 'http://dbpedia.org/ontology/';
+        query.prefixes.dbpprop        = 'http://dbpedia.org/property/';
+        return query;
+    }
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="nlpjs.classifier.AdaBoost.html">AdaBoost</a></li><li><a href="nlpjs.classifier.NaiveBayes.html">NaiveBayes</a></li><li><a href="nlpjs.classifier.NGram.html">NGram</a></li><li><a href="nlpjs.core.Annotation.html">Annotation</a></li><li><a href="nlpjs.core.AnnotationSet.html">AnnotationSet</a></li><li><a href="nlpjs.core.Container.html">Container</a></li><li><a href="nlpjs.core.Corpus.html">Corpus</a></li><li><a href="nlpjs.core.Document.html">Document</a></li><li><a href="nlpjs.core.HtmlDocument.html">HtmlDocument</a></li><li><a href="nlpjs.db.sparql.DBPediaEndpoint.html">DBPediaEndpoint</a></li><li><a href="nlpjs.db.sparql.Endpoint.html">Endpoint</a></li><li><a href="nlpjs.db.sparql.Query.html">Query</a></li><li><a href="nlpjs.distance.Hamming.html">Hamming</a></li><li><a href="nlpjs.distance.Levenshtein.html">Levenshtein</a></li><li><a href="nlpjs.stemmer.Hunspell.html">Hunspell</a></li><li><a href="nlpjs.tokenizer.CsTokenizer.html">CsTokenizer</a></li><li><a href="nlpjs.tokenizer.Tokenizer.html">Tokenizer</a></li><li><a href="StringBuffer.html">StringBuffer</a></li></ul><h3>Namespaces</h3><ul><li><a href="nlpjs.classifier.html">classifier</a></li><li><a href="nlpjs.core.html">core</a></li><li><a href="nlpjs.db.sparql.html">sparql</a></li><li><a href="nlpjs.distance.html">distance</a></li><li><a href="nlpjs.helpers.html">helpers</a></li><li><a href="nlpjs.stemmer.html">stemmer</a></li><li><a href="nlpjs.tokenizer.html">tokenizer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta3</a> on Sat May 02 2015 20:05:35 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

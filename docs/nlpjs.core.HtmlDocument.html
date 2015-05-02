@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: HtmlDocument</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: HtmlDocument</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="nlpjs.core.html">.core</a>.</span>
+        
+        HtmlDocument
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="HtmlDocument"><span class="type-signature"></span>new HtmlDocument<span class="signature">(name)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Html document with html parser
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">human readable name of the document</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>annotations</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="nlpjs.core.AnnotationSet.html">nlpjs.core.AnnotationSet</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Annotaions of this document</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Plain text of this document. Any HTML markup set to this property is automatically parsed</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">length of text</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_HtmlDocument.js.html">core/HtmlDocument.js</a>, <a href="core_HtmlDocument.js.html#line4">line 4</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var document = new HtmlDocument();
+document.text = "Some &lt;b>bold&lt;/b> text";
+document.text
+// => "Some bold text";
+document.annotations.type('html').first.text
+// => bold
+document.annotations.type('html').first.start
+// => 5</code></pre>
+
+
+
+    
+    </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="nlpjs.core.Document.html">nlpjs.core.Document</a></li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="text"><span class="type-signature"></span>text<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    Human readable text of the document
+
+html se to this property is parsed, html added to
+annotations and just plaintext is left
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_HtmlDocument.js.html">core/HtmlDocument.js</a>, <a href="core_HtmlDocument.js.html#line62">line 62</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="_cleanupHtml"><span class="type-signature">(private) </span>_cleanupHtml<span class="signature">(html)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Removes scripts, comments and unnessesary whitespaces
+from document
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>html</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">html to be clean up</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_HtmlDocument.js.html">core/HtmlDocument.js</a>, <a href="core_HtmlDocument.js.html#line126">line 126</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    cleaned up html
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="indexOf"><span class="type-signature"></span>indexOf<span class="signature">(string)</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns index of start of provided string, -1 otherwise
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>string</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">string to be found</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="nlpjs.core.Document.html#indexOf">nlpjs.core.Document#indexOf</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_Document.js.html">core/Document.js</a>, <a href="core_Document.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    position of string or -1 if not found
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="nlpjs.classifier.AdaBoost.html">AdaBoost</a></li><li><a href="nlpjs.classifier.NaiveBayes.html">NaiveBayes</a></li><li><a href="nlpjs.classifier.NGram.html">NGram</a></li><li><a href="nlpjs.core.Annotation.html">Annotation</a></li><li><a href="nlpjs.core.AnnotationSet.html">AnnotationSet</a></li><li><a href="nlpjs.core.Container.html">Container</a></li><li><a href="nlpjs.core.Corpus.html">Corpus</a></li><li><a href="nlpjs.core.Document.html">Document</a></li><li><a href="nlpjs.core.HtmlDocument.html">HtmlDocument</a></li><li><a href="nlpjs.db.sparql.DBPediaEndpoint.html">DBPediaEndpoint</a></li><li><a href="nlpjs.db.sparql.Endpoint.html">Endpoint</a></li><li><a href="nlpjs.db.sparql.Query.html">Query</a></li><li><a href="nlpjs.distance.Hamming.html">Hamming</a></li><li><a href="nlpjs.distance.Levenshtein.html">Levenshtein</a></li><li><a href="nlpjs.stemmer.Hunspell.html">Hunspell</a></li><li><a href="nlpjs.tokenizer.CsTokenizer.html">CsTokenizer</a></li><li><a href="nlpjs.tokenizer.Tokenizer.html">Tokenizer</a></li><li><a href="StringBuffer.html">StringBuffer</a></li></ul><h3>Namespaces</h3><ul><li><a href="nlpjs.classifier.html">classifier</a></li><li><a href="nlpjs.core.html">core</a></li><li><a href="nlpjs.db.sparql.html">sparql</a></li><li><a href="nlpjs.distance.html">distance</a></li><li><a href="nlpjs.helpers.html">helpers</a></li><li><a href="nlpjs.stemmer.html">stemmer</a></li><li><a href="nlpjs.tokenizer.html">tokenizer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta3</a> on Sat May 02 2015 20:05:35 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

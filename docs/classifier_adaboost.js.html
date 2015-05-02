@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: classifier/adaboost.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: classifier/adaboost.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>export default class AdaBoost {
+
+    /**
+     * @class nlpjs.classifier.AdaBoost
+     * @classdesc Implementation of Discrete AdaBoost algorithm
+     * @param classes
+     * @properties {object} _classes
+     * @properties {Array} _classifiers
+     * @properties {Array&lt;Number>} _weights
+     */
+    constructor(classes){
+        this._classifiers = [];
+        this._weights = [];
+    }
+
+    /**
+     * Add weak classifier
+     * @method nlpjs.classifier.AdaBoost#addWeakClassifier
+     * @param {function} classifier
+     * @param {number} weight classifier contribution to classification
+     * @param {string} label name of classifier
+     */
+    addWeakClassifier(classifier, weight = 0, label='unknown'){
+        this._classifiers.push(classifier);
+        this._weights.push(weight);
+    }
+
+    /**
+     * @method nlpjs.classifier.AdaBoost#train
+     * @param {Array} classA positive set
+     * @param {Array} classB negative set
+     */
+    train(classA, classB){
+        var x = classA.concat(classB);
+        var trainingSet = [];
+        for (var i=0, ii=x.length; i &lt; ii; i++){
+            trainingSet.push([x[i], i &lt; classA.length ? 1 : -1, i]);
+        }
+        var n = x.length;
+        var D = x.map(() => 1/n);
+
+        var error = (fn, x, y) => Math.exp(-y * fn(x));
+
+        for (var it = 0, itt = this._classifiers.length; it &lt; itt; it++) {
+
+            // calcaulate error of best classifier
+            var minError = Infinity;
+            var selectedClassifier = null;
+            var selectedClassifierIndex = -1;
+            for (var t = 0, tt = this._classifiers.length; t &lt; tt; t++) {
+                let classifier = this._classifiers[t];
+                var WSError = trainingSet.reduce((sum, sample) => sum + D[sample[2]] * error(classifier, sample[0], sample[1]), 0);
+                console.log(WSError);
+                if (WSError &lt; minError) {
+                    minError = WSError;
+                    selectedClassifier = classifier;
+                    selectedClassifierIndex = t;
+                }
+            }
+
+            var alpha = 0.5 * Math.log((1 - minError) / minError);
+            this._weights[selectedClassifierIndex] += alpha;
+
+            // alter train set weights
+            var DTotal = 0;
+            for (let di = 0, dii = D.length; di &lt; dii; di++) {
+                D[di] = D[di] * Math.exp(-trainingSet[di][1] * alpha * selectedClassifier(trainingSet[di][0]));
+                DTotal += D[di];
+            }
+            // normalizing weights
+            for (let di = 0, dii = D.length; di &lt; dii; di++) {
+                D[di]/=DTotal;
+            }
+            console.log(D.join(':') + '\n' , alpha, selectedClassifier.toString());
+        }
+    }
+
+    /**
+     * Perform classification
+     * @method nlpjs.classifier.AdaBoost#classify
+     * @param {*} feature
+     */
+    classify(feature){
+        var score = 0;
+        for (var i = 0, ii = this._classifiers.length; i &lt; ii; i++){
+            score += this._classifiers[i](feature) * this._weights[i];
+        }
+        return Math.sign(score);
+    }
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="nlpjs.classifier.AdaBoost.html">AdaBoost</a></li><li><a href="nlpjs.classifier.NaiveBayes.html">NaiveBayes</a></li><li><a href="nlpjs.classifier.NGram.html">NGram</a></li><li><a href="nlpjs.core.Annotation.html">Annotation</a></li><li><a href="nlpjs.core.AnnotationSet.html">AnnotationSet</a></li><li><a href="nlpjs.core.Container.html">Container</a></li><li><a href="nlpjs.core.Corpus.html">Corpus</a></li><li><a href="nlpjs.core.Document.html">Document</a></li><li><a href="nlpjs.core.HtmlDocument.html">HtmlDocument</a></li><li><a href="nlpjs.db.sparql.DBPediaEndpoint.html">DBPediaEndpoint</a></li><li><a href="nlpjs.db.sparql.Endpoint.html">Endpoint</a></li><li><a href="nlpjs.db.sparql.Query.html">Query</a></li><li><a href="nlpjs.distance.Hamming.html">Hamming</a></li><li><a href="nlpjs.distance.Levenshtein.html">Levenshtein</a></li><li><a href="nlpjs.stemmer.Hunspell.html">Hunspell</a></li><li><a href="nlpjs.tokenizer.CsTokenizer.html">CsTokenizer</a></li><li><a href="nlpjs.tokenizer.Tokenizer.html">Tokenizer</a></li><li><a href="StringBuffer.html">StringBuffer</a></li></ul><h3>Namespaces</h3><ul><li><a href="nlpjs.classifier.html">classifier</a></li><li><a href="nlpjs.core.html">core</a></li><li><a href="nlpjs.db.sparql.html">sparql</a></li><li><a href="nlpjs.distance.html">distance</a></li><li><a href="nlpjs.helpers.html">helpers</a></li><li><a href="nlpjs.stemmer.html">stemmer</a></li><li><a href="nlpjs.tokenizer.html">tokenizer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta3</a> on Sat May 02 2015 20:05:35 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

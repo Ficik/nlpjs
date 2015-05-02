@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: core/Corpus.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: core/Corpus.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Container from './Container';
+import AnnotationSet from './AnnotationSet';
+
+/**
+ * Corpus for language linguistic, that contains multiple documents
+ * and provides and provides methods to interact with all of them
+ * as a single document.
+ * @class nlpjs.core.Corpus
+ */
+export default class Corpus extends Container {
+    /**
+     * @constructor
+     * @param {string} name descriptive name of the corpus
+     * @extends nlpjs.core.Container
+     */
+    constructor(name){
+        super(name);
+        this._documents = [];
+        this._annotations = new AnnotationSet(this);
+    }
+    /**
+     * Adds document to corpus
+     * @param {nlpjs.core.Document} doc [description]
+     */
+    add(doc) {
+        var buffer = [];
+        doc.annotations.each(function(annotation){
+            buffer.push(annotation);
+        });
+
+        doc.annotations.listen('add', function(a){
+            addAnnotations(a);
+        });
+
+
+        var addAnnotations = (function(offset, self){
+            return function(ann){
+                ann = ann.map(function(a){
+                    a = AnnotationSet.cloneAnnotation(a);
+                    a.start += offset;
+                    a.end += offset;
+                    return a;
+                });
+                self._annotations.add(ann);
+            };
+        })(this.text.length, this);
+
+        this._documents.push(doc);
+        addAnnotations(buffer);
+        return this;
+    }
+    /**
+     * Get document by name
+     * @method
+     * @name nlpjs.core.Corpus#document
+     * @param {string} name name of the document
+     * @returns {nlpjs.core.Document}
+     */
+    document(name) {
+        for (var i in this._documents)
+            if (this._documents[i].name == name)
+                return this._documents[i];
+        return undefined;
+    }
+
+    /**
+     * Number of documents in this corpus
+     * @instance
+     * @name nlpjs.core.Corpus#size
+     * @readonly
+     * @memberof nlpjs.core.Corpus
+     * @type {number}
+     */
+    get size() {
+        return this._documents.length;
+    }
+
+    /**
+     * Concated text of all documents.
+     * Documents are concated in order
+     * they were added to this corpus
+     * @name nlpjs.core.Corpus#text
+     * @instance
+     * @memberof nlpjs.core.Corpus
+     * @readonly
+     * @type {string}
+     */
+    get text() {
+        var text = "";
+        for (var i in this._documents)
+            text += this._documents[i].text;
+        return text;
+    }
+
+    /**
+     * Concated annotations of all documents in this corpus.
+     * AnnotationSet is reindexed to match concated text provided by
+     * {@link nlpjs.core.Corpus#text|text property}
+     *
+     * Please note that this property is not cached and new AnnotationSet
+     * is create with every access.
+     * @name nlpjs.core.Corpus#annotations
+     * @instance
+     * @memberof nlpjs.core.Corpus
+     * @type {nlpjs.core.AnnotationSet}
+     */
+    get annotations(){
+        return this._annotations;
+    }
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="nlpjs.classifier.AdaBoost.html">AdaBoost</a></li><li><a href="nlpjs.classifier.NaiveBayes.html">NaiveBayes</a></li><li><a href="nlpjs.classifier.NGram.html">NGram</a></li><li><a href="nlpjs.core.Annotation.html">Annotation</a></li><li><a href="nlpjs.core.AnnotationSet.html">AnnotationSet</a></li><li><a href="nlpjs.core.Container.html">Container</a></li><li><a href="nlpjs.core.Corpus.html">Corpus</a></li><li><a href="nlpjs.core.Document.html">Document</a></li><li><a href="nlpjs.core.HtmlDocument.html">HtmlDocument</a></li><li><a href="nlpjs.db.sparql.DBPediaEndpoint.html">DBPediaEndpoint</a></li><li><a href="nlpjs.db.sparql.Endpoint.html">Endpoint</a></li><li><a href="nlpjs.db.sparql.Query.html">Query</a></li><li><a href="nlpjs.distance.Hamming.html">Hamming</a></li><li><a href="nlpjs.distance.Levenshtein.html">Levenshtein</a></li><li><a href="nlpjs.stemmer.Hunspell.html">Hunspell</a></li><li><a href="nlpjs.tokenizer.CsTokenizer.html">CsTokenizer</a></li><li><a href="nlpjs.tokenizer.Tokenizer.html">Tokenizer</a></li><li><a href="StringBuffer.html">StringBuffer</a></li></ul><h3>Namespaces</h3><ul><li><a href="nlpjs.classifier.html">classifier</a></li><li><a href="nlpjs.core.html">core</a></li><li><a href="nlpjs.db.sparql.html">sparql</a></li><li><a href="nlpjs.distance.html">distance</a></li><li><a href="nlpjs.helpers.html">helpers</a></li><li><a href="nlpjs.stemmer.html">stemmer</a></li><li><a href="nlpjs.tokenizer.html">tokenizer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta3</a> on Sat May 02 2015 20:05:35 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

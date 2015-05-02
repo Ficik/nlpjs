@@ -27,5 +27,10 @@
     "requirejs": "^2.1.14",
     "should": "^5.2.0",
     "yargs": "^3.4.4"
+  },
+  "dependencies": {
+    "babelify": "^6.0.2",
+    "browserify": "^10.0.0",
+    "gulp-browserify": "^0.5.1"
   }
 }

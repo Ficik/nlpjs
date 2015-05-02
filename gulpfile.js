@@ -53,6 +53,14 @@ gulp.task('clean', 'removes build files', function(cb){
     return $gulp.del(['dist/**', 'docs/**'], cb);
 });
 
+gulp.task('demo', 'build demo code', function(){
+   return gulp.src('demo/live.js')
+        .pipe($gulp.browserify({
+           transform: ['babelify']
+        }))
+        .pipe(gulp.dest('.'));
+});
+
 gulp.task('build', 'one time build of documentationa and javascript', ['clean', 'js', 'docs']);
 
 gulp.task('default', 'task for starting development with file watching', ['webserver', 'build'], function(){

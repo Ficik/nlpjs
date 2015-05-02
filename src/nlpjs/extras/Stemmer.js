@@ -1,42 +1,41 @@
-define(['klass/klass', 'require'], function(klass, require){
+/**
+ * @abstract
+ * @class nlpjs.extras.Stemmer
+ * @property {string} language language this stemmer stems
+ */
+export default class Stemmer {
 
-    var Stemmer = {
-        get: function(lang, async){
-            if (async === false){
-                var stemmer = require('nlpjs/extras/stemmer/' + lang);
-                return new stemmer();
-            } else {
-                return new Promise(function(resolve, reject){
-                    require(['nlpjs/extras/stemmer/' + lang], function(stemmer){
-                        resolve(new stemmer());
-                    }, function(err){
-                        reject(err);
-                    });
-                });
-            }
-        }
-    };
-
-    Stemmer.abstract = klass(function(language){
+    constructor(language){
         this._language = language;
-    })
-        .methods({
-            stem : function(document, type){
-                type = type || 'word';
-                var self = this;
-                var text = document.text;
-                var words = document.annotations.type(type);
-                words.each(function(word){
-                    var w = text.slice(word.start, word.end);
-                    word.features.stem = self._stem(w);
-                });
-            }
-        });
-    Object.defineProperty(Stemmer.abstract.prototype, 'language', {
-        get : function(){
-            return this._language;
-        }
-    });
+    }
 
-    return Stemmer;
-});
+    get language() {
+        return this._language;
+    }
+
+
+    /**
+     * @abstract
+     * @name nlpjs.extras.Stemmer#stem
+     * @param {string} word word to stem
+     * @return {string} stemmed word
+     */
+    stem(word){
+
+    }
+
+    /**
+     * @name nlpjs.extras.Stemmer#stemDocument
+     * @param {nlpjs.core.Document} document
+     * @param {string} type annotation type to stem
+     */
+    stemDocument(document, type = 'word'){
+        var self = this;
+        var text = document.text;
+        var words = document.annotations.type(type);
+        words.each(function(word){
+            var w = text.slice(word.start, word.end);
+            word.features.stem = self.stem(w);
+        });
+    }
+}

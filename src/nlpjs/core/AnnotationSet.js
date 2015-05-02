@@ -1,21 +1,19 @@
 import Annotation from './Annotation';
 
 /**
- * @namespace nlpjs.core.AnnotationSet
+ * Annotations set provides access to
+ * Document annotation
+ * @class nlpjs.core.AnnotationSet
+ * @property {number} size number of annotations in set
+ * @property {nlpjs.core.Annotation} first first annotation in set
+ * @property {nlpjs.core.Annotation} last  last annotation in set
+ * @property {boolean} isEmpty emptiness of set
+ * @param {nlpjs.core.Document} document document this annotation belongs to
+ * @param {object} [set] initial set of annotations
  */
 export default class AnnotationSet {
 
-    /**
-     * Annotations set provides access to
-     * Document annotation
-     * @class nlpjs.core.AnnotationSet
-     * @property {number} size number of annotations in set
-     * @property {nlpjs.core.Annotation} first first annotation in set
-     * @property {nlpjs.core.Annotation} last  last annotation in set
-     * @property {boolean} isEmpty emptiness of set
-     * @param {nlpjs.core.Document} document document this annotation belongs to
-     * @param {object} [set] initial set of annotations
-     */
+
     constructor(document, set){
         this._document = document;
         var self = this;

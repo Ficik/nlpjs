@@ -3,20 +3,26 @@
  */
 
 /**
- *  @class nlpjs.distance.Levenshtein
+ *  @class Levenshtein
+ *  @memberOf nlpjs.distance
  *  @property {number} add cost of character insertion
  *  @property {number} del cost of character removal
  *  @property {number} edit cost of character substitution
+ *  @param {number} add cost of character insertion
+ *  @param {number} del cost of character removal
+ *  @param {number} edit cost of character substitution
  *  @describe weighted Levenshtein/edit distance
  *  Default weights are all eq to 1
+ *  @example // Static with default costs
+ *  Levenshtein.distance('hello', 'hello world')
+ *  // => 6
+ *  @example // Instance with custom costs
+ *  var levenshtein = new Levenshtein(2,1,1) // insertion, removal, substitution costs
+ *  levenshtein.distance('hello', 'hello world')
+ *  // => 12
  */
 export default class Levenshtein {
 
-    /**
-     * @param {number} add cost of character insertion
-     * @param {number} del cost of character removal
-     * @param {number} edit cost of character substitution
-     */
     constructor(add =1, del = 1, edit = 1){
         this.add =  add;
         this.del =  del;

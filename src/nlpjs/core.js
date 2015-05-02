@@ -1,9 +1,11 @@
 /**
  * @namespace nlpjs.core
+ * @memberOf nlpjs
  */
 
-export {AnnotationSet} from './core/AnnotationSet';
-export {Container} from './core/Container';
-export {Corpus} from './core/Corpus';
-export {Document} from './core/Document';
-export {HtmlDocument} from './core/HtmlDocument';
+import AnnotationSet from './core/AnnotationSet';
+import Container from './core/Container';
+import Corpus from './core/Corpus';
+import Document from './core/Document';
+import HtmlDocument from './core/HtmlDocument';
+export {AnnotationSet, Container, Corpus, Document, HtmlDocument};

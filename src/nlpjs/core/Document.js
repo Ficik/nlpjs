@@ -1,18 +1,18 @@
 import AnnotationSet from './AnnotationSet';
 import Container from './Container';
 
+/**
+ * Document
+ * @class nlpjs.core.Document
+ * @property {nlpjs.core.AnnotationSet} annotations Annotaions of this document
+ * @property {string} text Plain text of this document
+ * @property {number} size length of text
+ * @param {string} name - human readable name of the document
+ * @param {string} [text] - text of the document
+ * @extends nlpjs.core.Container
+ */
 export default class Document extends Container {
 
-    /**
-     * Document
-     * @class nlpjs.core.Document
-     * @property {nlpjs.core.AnnotationSet} annotations
-     * @property {string} text
-     * @property {number} size length of text
-     * @param {string} name - human readable name of the document
-     * @param {string} [text] - text of the document
-     * @extends nlpjs.core.Container
-     */
     constructor(name, text){
         super(name);
         this._text = '';

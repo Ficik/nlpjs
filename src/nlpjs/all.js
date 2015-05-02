@@ -1,14 +1,10 @@
+import * as core  from './core';
+import * as classifier  from './classifier';
+import * as tokenizer  from './tokenizer';
+import * as extras from './extras';
+export {core, classifier, tokenizer, extras};
+
 /**
+ * Base packing containing everything
  * @namespace nlpjs
  */
-import * as core from './core.js';
-import * as classifier from './classifier.js';
-import * as tokenizer from './tokenizer.js';
-import extras from './extras';
-
-export default {
-    core: core,
-    classifier: classifier,
-    tokenizer: tokenizer,
-    extras: extras
-};

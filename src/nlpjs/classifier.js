@@ -1,6 +1,7 @@
 /**
  @namespace nlpjs.classifier
  */
-export {AdaBoost} from './classifier/adaboost.js';
-export {NaiveBayes} from './classifier/naivebayes.js';
-export {NGram} from './classifier/ngram.js';
+import AdaBoost from './classifier/adaboost.js';
+import NaiveBayes from './classifier/naivebayes.js';
+import NGram from './classifier/ngram.js';
+export {AdaBoost, NaiveBayes, NGram}

@@ -1,5 +1,10 @@
 import Tokenizer from './Tokenizer.js';
 
+/**
+ * Czech tokenizer
+ * @class nlpjs.tokenizer.CsTokenizer
+ * @extends nlpjs.tokenizer.Tokenizer
+ */
 export default class CsTokenizer extends Tokenizer {
 
     constructor(){

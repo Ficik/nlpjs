@@ -25,9 +25,7 @@ PFX F   0           osma       .
 PFX F   0           devěta     .
 
 SFX P Y 124
-SFX P   0           a          [^aeokl]
-SFX P   0           u          [^aeoklu]
-SFX P   0           ovi        [^aeokl]
+
 SFX P   0           e          [^aeoklurcgh]
 SFX P   0           e          [aeiouyáéíóúůýě]r
 SFX P   r           ře         [^aeiouyáéíóúůýě]r

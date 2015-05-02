@@ -1,13 +1,26 @@
 import Document from './Document';
 import AnnotationSet from './AnnotationSet.js';
 
+/**
+ * Html document with html parser
+ * @class nlpjs.core.HtmlDocument
+ * @param {string} name - human readable name of the document
+ * @property {nlpjs.core.AnnotationSet} annotations Annotaions of this document
+ * @property {string} text Plain text of this document. Any HTML markup set to this property is automatically parsed
+ * @property {number} size length of text
+ * @extends nlpjs.core.Document
+ * @example
+ * var document = new HtmlDocument();
+ * document.text = "Some <b>bold</b> text";
+ * document.text
+ * // => "Some bold text";
+ * document.annotations.type('html').first.text
+ * // => bold
+ * document.annotations.type('html').first.start
+ * // => 5
+ */
 export default class HtmlDocument extends Document {
-    /**
-     * Creates new document
-     * @class nlpjs.core.HtmlDocument
-     * @param {string} name - human readable name of the document
-     * @extends nlpjs.core.Container
-     */
+
     constructor(name){
         super(name);
 

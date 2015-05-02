@@ -5,12 +5,19 @@ import AnnotationSet from '../core/AnnotationSet.js';
 /**
  * Generic tokenizer
  * @class nlpjs.tokenizer.Tokenizer
+ * @example
+ * var document = new Document();
+ * document.text = "Good idea said the voice. It's getting crowded in here.";
+ * new Tokenizer().tokenize(document);
+ * document.annotations.type('word').length
+ * // => 10
+ * document.annotations.type('sentence').length
+ * // => 2
+ * document.annotations.type('sentence').type('word').last.text
+ * // => 'voice'
  */
 export default class Tokenizer {
 
-    /**
-     * @constructor
-     */
     constructor() {
         this.capitals = "A-ZĚŠČŘŽÝÁÍÉÚŮ";
         this.sentenceTerminators = "?.!";
@@ -48,7 +55,9 @@ export default class Tokenizer {
 
     /**
      * Complete tokenization of text of the document.
-     * @return {nlpjs.tokenizer.Tokenizer} self
+     * @method nlpjs.tokenizer.Tokenizer#tokenize
+     * @param {nlpjs.core.Document} document
+     * @return {nlpjs.core.Document} annotated document
      */
     tokenize(document) {
         var tokens = [];
@@ -65,7 +74,8 @@ export default class Tokenizer {
     }
 
     /**
-     *
+     * Annotate stopwords
+     * @method nlpjs.tokenizer.Tokenizer#stopwords
      * @param {nlpjs.core.Document} document document to process
      * @returns {nlpjs.core.Document|Array<nlpjs.core.Annotation>}
      */
@@ -76,6 +86,7 @@ export default class Tokenizer {
 
     /**
      * Creates word tokens
+     * @method nlpjs.tokenizer.Tokenizer#words
      * @param {nlpjs.core.Document} document document to process
      * @param {boolean} returnTokens returns Annotations instead of document with added annotations
      * @returns {nlpjs.core.Document|Array<nlpjs.core.Annotation>}
@@ -93,6 +104,7 @@ export default class Tokenizer {
 
     /**
      * Creates tokens of any numbers within document
+     * @method nlpjs.tokenizer.Tokenizer#numbers
      * @param {nlpjs.core.Document} document document to process
      * @param {boolean} returnTokens returns Annotations instead of document with added annotations
      * @returns {nlpjs.core.Document|Array<nlpjs.core.Annotation>}
@@ -113,6 +125,7 @@ export default class Tokenizer {
 
     /**
      * Creates tokens of any numbers within document
+     * @method nlpjs.tokenizer.Tokenizer#times
      * @param {nlpjs.core.Document} document document to process
      * @param {boolean} returnTokens returns Annotations instead of document with added annotations
      * @returns {nlpjs.core.Document|Array<nlpjs.core.Annotation>}
@@ -146,6 +159,7 @@ export default class Tokenizer {
     /**
      * Creates sentence tokens with type of sentence
      * (interrorative, impertative or declarative)
+     * @method nlpjs.tokenizer.Tokenizer#sentences
      * @param {nlpjs.core.Document} document document to process
      * @param {boolean} returnTokens returns Annotations instead of document with added annotations
      * @returns {nlpjs.core.Document|Array<nlpjs.core.Annotation>}
@@ -195,6 +209,7 @@ export default class Tokenizer {
      * within html tags with semantic of line - text that would
      * be display on screen of infinite width without css as single line.
      * Line doesn't contain other line
+     * @method nlpjs.tokenizer.Tokenizer#lines
      * @param {nlpjs.core.Document} document document to process
      * @param {boolean} returnTokens returns Annotations instead of document with added annotations
      * @returns {nlpjs.core.Document|Array<nlpjs.core.Annotation>}

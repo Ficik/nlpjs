@@ -94,6 +94,16 @@ for (var i=0; i < defaultDiacriticsRemovalap.length; i++){
     }
 }
 
+/**
+ * Replace accent symbols with their non accent variant
+ * @function removeAccent
+ * @memberOf nlpjs.helpers
+ * @param {string} str string with accent characters
+ * @returns {string} string with ascii characters
+ * @example
+ * removeAccent('Žluťoučký kůn ůpěl ďábelské ódy')
+ * // => Zlutoucky kun upel dabelske ody
+ */
 export default function removeAccent (str) {
     return str.replace(/[^\u0000-\u007E]/g, function(a){
         return diacriticsMap[a] || a;

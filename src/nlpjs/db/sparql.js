@@ -1,14 +1,32 @@
 /**
  * @author Stanislav Fifik <stanislav.fifik@designeo.cz>
  */
+/**
+ * Set of tools for quering SPARQL endpoints
+ * @namespace nlpjs.db.sparql
+ * @memberOf nlpjs.db
+ */
+
 
 /**
- * Sparql query wrapper
- * @class nlpjs.db.sparql.Query
- * @describe
- * For now just simplifies prefix management, by allowing setting prefixes separatelly from query
+ * @class Query
+ * @memberOf nlpjs.db.sparql
+ * @param {string} query query to perform
  * @property {string} query query to perform
  * @property {object} prefixes prefixes available to the query
+ * @description
+ * Sparql query wrapper.
+ * For now just simplifies prefix management, by allowing setting prefixes separatelly from query
+ * @example //Create query with prefixes
+ * var query = new Query();
+ * query.prefixes['dbpprop'] = 'http://dbpedia.org/property/';
+ * query.prefixes['unused'] = 'http://unused/';
+ * query.query = "prefix dbpedia: <http://dbpedia.org/resource/> \
+ *                Select ? name Where { dbpedia:SPARQL dbpprop:name ?name.}";
+ * var built = query.toString();
+ * // => prefix dbpedia: <http://dbpedia.org/resource/>
+ * //    prefix dbpprop: <http://dbpedia.org/property/>
+ * //    Select ? name Where { dbpedia:SPARQL dbpprop:name ?name.}
  */
 export class Query {
 
@@ -55,27 +73,26 @@ export class Query {
 }
 
 /**
- * @class nlpjs.db.sparql.Endpoint
+ * @class Endpoint
+ * @memberOf nlpjs.db.sparql
+ * @property {string} url
+ * @property {boolean} jsonp - Whether query should be done using jsonp (currently only supported method)
+ * @param {string} url query template with %query% placeholder for query
+ * @param {boolean} jsonp use jsonp for quering
  * @description
  * Sparql enpoint wrapper.
  * Allows to query the endpoint at defined url and provides access to endpoint customized Query object
- * @property {string} url
- * @property {boolean} jsonp - Whether query should be done using jsonp (currently only supported method)
  */
 export default class Endpoint {
 
-    /**
-     * Creates new SparqlEndpoint with
-     * @param {string} url query template with %query% placeholder for query
-     * @param {boolean} jsonp use jsonp for quering
-     */
+
     constructor(url, jsonp = true){
         this.url = url;
         this.jsonp = jsonp;
     }
 
     /**
-     * @name nlpjs.db.sparql.Endpoint.query
+     * @method nlpjs.db.sparql.Endpoint.query
      * @param {nlpjs.db.sparql.Query|string}  query
      * @returns {Promise<json>} promise of json formated result
      */
@@ -88,7 +105,7 @@ export default class Endpoint {
 
     /**
      * Transform query to get parameter encoding
-     * @name nlpjs.db.sparql.Endpoint._sanitizeQuery
+     * @method nlpjs.db.sparql.Endpoint._sanitizeQuery
      * @param query
      * @private
      * @returns {string}
@@ -102,7 +119,7 @@ export default class Endpoint {
 
     /**
      * Do jsonp request
-     * @name nlpjs.db.sparql.Endpoint._doJSONP
+     * @method nlpjs.db.sparql.Endpoint._doJSONP
      * @param url
      * @returns {Promise}
      * @private
@@ -123,7 +140,7 @@ export default class Endpoint {
 
     /**
      * Endpoint customized query object
-     * @name nlpjs.db.sparql.Endpoint.getQuery
+     * @method nlpjs.db.sparql.Endpoint.getQuery
      * @return {nlpjs.db.sparql.Query}
      */
     getQuery(){
@@ -131,7 +148,7 @@ export default class Endpoint {
     }
 
     /**
-     * @name nlpjs.db.sparql.Endpoint._createSafeCallback
+     * @method nlpjs.db.sparql.Endpoint._createSafeCallback
      * @param fn
      * @private
      */
@@ -147,14 +164,16 @@ export default class Endpoint {
 }
 
 /**
- * dbpedia.org endpoint
- * @name nlpjs.db.sparql.DBPediaEndpoint
- * @extends nlpjs.db.sparql.Endpoint
+ * dbpedia.org endpoint wrapper
+ * @class DBPediaEndpoint
+ * @memberOf nlpjs.db.sparql
+ * @param {string} lang language mutation of enpoint. Two letter codes are expected
+ * @extends Endpoint
  */
 export class DBPediaEndpoint extends Endpoint {
 
     /**
-     * @param {string} lang language mutation of enpoint. Two letter codes are expected
+     *
      */
     constructor(lang){
         if (lang){
@@ -166,7 +185,7 @@ export class DBPediaEndpoint extends Endpoint {
 
     /**
      * Query with preset commonly used prefixes on dbpedia
-     * @name nlpjs.db.sparql.DBPediaEndpoint.getQuery
+     * @method nlpjs.db.sparql.DBPediaEndpoint.getQuery
      * @returns {nlpjs.db.sparql.Query}
      */
     getQuery(){

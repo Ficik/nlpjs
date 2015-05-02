@@ -2,11 +2,19 @@
  * @author Stanislav Fifik <stanislav.fifik@designeo.cz>
  */
 
+
+/**
+ * @class Hamming
+ * @memberOf nlpjs.distance
+ * @example
+ * Hamming.distance('HELO', 'EHLO')
+ * // => 2
+ */
 export default class Hamming {
 
     /**
      * Calculates Hamming distance
-     * @name nlpjs.distance.Hamming.distance
+     * @name Hamming.distance
      * @param {string} string1
      * @param {string} string2
      * @returns {number|undefined} hamming distance or undefined for string of different lengths

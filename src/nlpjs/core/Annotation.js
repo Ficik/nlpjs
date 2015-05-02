@@ -1,15 +1,16 @@
+/**
+ * Document annotation
+ * @class nlpjs.core.Annotation
+ * @property {string} text
+ * @param {AnnotationSet} set annotationset this annotation belongs to
+ * @param {number} start start position before char
+ * @param {number} end end position after char
+ * @param {string} type type of annotation
+ * @param {object} features set of features
+ */
 export default class Annotation {
 
-    /**
-     * Document annotation
-     * @class nlpjs.core.Annotation
-     * @property {string} text
-     * @param {AnnotationSet} set annotationset this annotation belongs to
-     * @param {number} start start position before char
-     * @param {number} end end position after char
-     * @param {string} type type of annotation
-     * @param {object} features set of features
-     */
+
     constructor(set, start, end, type, features = {}){
         this._set = set;
         this.start = start;

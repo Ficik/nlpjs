@@ -1,16 +1,26 @@
 
+
+
 var justMatch = function(_, match){
     return match;
 };
+
+/**
+ * @class Hunspell
+ * @memberOf nlpjs.stemmer
+ * @property {Array} ruleset
+ * @property {{stem: {usage: int, cls: string}}} dict
+ * @param {Array<Function>} ruleset list of rules for stemming
+ * @example \\ Create Hunspell Stemmer
+ * var stemmer = Hunspell.fromAffix(affFileContentAsString);
+ * stemmer.dictionary(dictFileContentAsString);
+ * stemmer.usage(['lorem', 'ipsum', 'dolor', 'sit', 'amet'])
+ * stemmer.removeUnusedRules();
+ * stemmer.removeUnusedDictEntries()
+ */
 export default class Hunspell {
 
-    /**
-     * @class nlpjs.stemmer.Hunspell
-     * @property {Array} ruleset
-     * @property {{stem: {usage: int, cls: string}}} dict
-     * @constructor
-     * @param {Array<Function>} ruleset list of rules for stemming
-     */
+
     constructor(ruleset){
         this.ruleset = ruleset;
         this.nextId = 0;
@@ -256,7 +266,12 @@ export default class Hunspell {
     }
 
     /**
+     * Creates rule from parsed affix file
      * @method nlpjs.stemmer.Hunspell.createRule
+     * @param {boolean} suffix true if line starts with SFX
+     * @param {string} del second rule param
+     * @param {string} add third rule param
+     * @param {string} cond fourth rule param
      * @returns {nlpjs.stemmer.Hunspell}
      */
     static createRule(suffix, del, add, cond) {
@@ -300,9 +315,16 @@ export default class Hunspell {
     }
 
     /**
+     * Initialize stemmer from aff file
      * @method nlpjs.stemmer.Hunspell.fromAffix
-     * @param {string} content
+     * @param {string} content content of aff file
      * @returns {nlpjs.stemmer.Hunspell}
+     * @example
+     * var content = \
+     * "SFX P   0           a          [^aeokl]\
+     *  SFX P   0           u          [^aeoklu]\
+     *  SFX P   0           ovi        [^aeokl]";
+     *  var hunspell = Hunspell.fromAffix(content);
      */
     static fromAffix(content){
         var lines = content.split('\n');

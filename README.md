@@ -1,5 +1,9 @@
 # NLP.js
 
+Natural language processing toolkit for browsers
+
+## [Check out demo!](http://ficik.github.io/nlpjs/)
+
 ## Instalation
 
 This library uses grunt for building, testing and generating documentation.
@@ -14,7 +18,7 @@ bower install
 
 Now you can build library into dist dir using
 ```
-grunt build
+gulp build
 ```
 
 ## Usage
@@ -22,7 +26,5 @@ grunt build
 Library is using amd package format, you can use any amd loader to load library
 in your project
 
-## Documentation
+## [Documentation](http://ficik.github.io/nlpjs/docs/)
 
-Documentation is part of the code as jsdoc. It can be build
-into doc directory by: ```grunt jsdoc```

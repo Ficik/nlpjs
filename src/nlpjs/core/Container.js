@@ -2,7 +2,8 @@ export default class Container {
 
     /**
      * Generic data container
-     * @class nlpjs.core.Container
+     * @class Container
+     * @memberOf nlpjs.core
      * @param {string} name name of the container
      * @property {string} name
      */
@@ -12,7 +13,7 @@ export default class Container {
 
     /**
      * @readonly
-     * @returns {Container.name}
+     * @returns {string}
      */
     get name(){
         return this._name;

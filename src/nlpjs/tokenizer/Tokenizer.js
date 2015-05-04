@@ -60,15 +60,13 @@ export default class Tokenizer {
      * @return {nlpjs.core.Document} annotated document
      */
     tokenize(document) {
+        this.lines(document, false);
         var tokens = [];
-        tokens = tokens.concat(this.words(document, true));
-        tokens = tokens.concat(this.numbers(document, true));
-        tokens = tokens.concat(this.lines(document, true));
-        tokens = tokens.concat(this.times(document, true));
-        document.annotations.add(tokens);
-        tokens = [];
         tokens = tokens.concat(this.sentences(document, true));
         tokens = tokens.concat(this.stopwords(document));
+        tokens = tokens.concat(this.words(document, true));
+        tokens = tokens.concat(this.numbers(document, true));
+        tokens = tokens.concat(this.times(document, true));
         document.annotations.add(tokens);
         return document;
     }
@@ -170,7 +168,8 @@ export default class Tokenizer {
             line,
             tokens = [],
             annotations = document.annotations,
-            self = this;
+            self = this,
+            lines = annotations.type('line');
         document.text.replace(this.sentenceRegex, function(match, sentence, type, position){
             for (var i=0,ii=self.abbrs.length;i<ii;i++){
                 if (sentence.indexOf(self.abbrs[i]) == sentence.length-self.abbrs[i].length)
@@ -185,7 +184,7 @@ export default class Tokenizer {
             offset = match.length - sentence.length - 1;
             sentence = AnnotationSet.createAnnotation(offset + position, offset + position + sentence.length, 'sentence', {type : type});
             // try fix using line
-            line = annotations.get(sentence.start, sentence.end).type('line').first;
+            line = lines.get(sentence.start, sentence.end).first;
             if (line){
                 if (sentence.start !== line.start){
                     let prev_sentence = tokens[tokens.length-1];

@@ -3,7 +3,8 @@ import Container from './Container';
 
 /**
  * Document
- * @class nlpjs.core.Document
+ * @class Document
+ * @memberOf nlpjs.core
  * @property {nlpjs.core.AnnotationSet} annotations Annotaions of this document
  * @property {string} text Plain text of this document
  * @property {number} size length of text

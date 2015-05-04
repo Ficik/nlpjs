@@ -1,4 +1,7 @@
 import Annotation from './Annotation';
+import filter from '../../lodash/collection/filter';
+import map from '../../lodash/collection/map';
+import each from '../../lodash/collection/each';
 
 /**
  * Annotations set provides access to
@@ -10,24 +13,29 @@ import Annotation from './Annotation';
  * @property {boolean} isEmpty emptiness of set
  * @param {nlpjs.core.Document} document document this annotation belongs to
  * @param {object} [set] initial set of annotations
+ * @param {boolean} dirty skips sorting and instance checking
  */
 export default class AnnotationSet {
 
 
-    constructor(document, set){
+    constructor(document, set, dirty = false){
         this._document = document;
         var self = this;
         if (set === undefined){
             this._data = [];
-        } else {
-            this._data = set.map(function(x){
+        } else if (!dirty) {
+            this._data = map(set, function(x){
                 if (x instanceof Annotation){
                     return x;
                 }
                 return new Annotation(self, x.start, x.end, x.type, x.features);
             });
+        } else {
+            this._data = set;
         }
-        this._sort();
+        if (!dirty){
+            this._sort();
+        }
         this._listeners = {};
     }
 
@@ -90,7 +98,7 @@ export default class AnnotationSet {
         if (Object.prototype.toString.call(annotations) !== '[object Array]'){
             annotations = [annotations];
         }
-        this._data = this._data.filter(function(an){
+        this._data = filter(this._data, function(an){
             for (var i=0,ii=annotations.length;i<ii;i++){
                 var annotation = annotations[i];
                 if (annotation.type  === an.type &&
@@ -162,7 +170,7 @@ export default class AnnotationSet {
      * @return {nlpjs.core.AnnotationSet} filtered set
      */
     filter(pred) {
-        return new AnnotationSet(this._document, this._data.filter(pred));
+        return new AnnotationSet(this._document, filter(this._data, pred), true);
     }
 
     /**
@@ -171,10 +179,7 @@ export default class AnnotationSet {
      * @return {nlpjs.core.AnnotationSet} self for chaining
      */
     each(fn) {
-        for (var i = 0, ii = this._data.length; i < ii; i += 1){
-            if (this._data[i].start >= 0 && this._data[i].end >= 0)
-                fn.call(fn, this._data[i], i);
-        }
+        each(filter(this._data, (a) => (a.start >= 0 && a.end >= 0)), fn);
         return this;
     }
 
@@ -184,11 +189,7 @@ export default class AnnotationSet {
      * @returns {Array}
      */
     map(fn){
-        var arr = [];
-        for (var i = 0, ii = this._data.length; i < ii; i += 1){
-            arr.push(fn.call(fn, this._data[i], i));
-        }
-        return arr;
+        return map(this._data, fn);
     }
 
     /**

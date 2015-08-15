@@ -1,6 +1,6 @@
 import SnowballProgram from '../../helpers/snowball';
 import Among from '../../helpers/among';
-import Stemmer from '../Stemmer';
+import Stemmer from '../stemmer';
 
     /*!
  * Snowball JavaScript Library v0.3

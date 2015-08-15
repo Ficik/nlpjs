@@ -1,4 +1,4 @@
-import Tokenizer from './Tokenizer.js';
+import Tokenizer from './tokenizer.js';
 
 /**
  * Czech tokenizer

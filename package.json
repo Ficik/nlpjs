@@ -7,6 +7,10 @@
     "test": "node_modules/mocha/bin/mocha --compilers js:babel/register --recursive node_test",
     "build": "node_modules/gulp/bin/gulp.js build"
   },
+  "directories": {
+    "lib": "src/nlpjs",
+    "test": "node_test"
+  },
   "devDependencies": {
     "babel": "^4.7.3",
     "del": "^1.1.1",

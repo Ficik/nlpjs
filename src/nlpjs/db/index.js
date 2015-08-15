@@ -4,5 +4,5 @@
  * @memberOf nlpjs
  */
 
-import * as sparql from 'db/sparql.js';
-export {sparql};
+import * as sparql from './sparql.js';
+export { sparql };

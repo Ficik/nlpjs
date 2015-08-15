@@ -34,6 +34,16 @@ export default class HtmlDocument extends Document {
             '&#39;' : "'"
         };
 
+        this.blockTags = {
+            'ul': true,
+            'ol': true,
+            'il': true,
+            'li': true,
+            'p': true,
+            'div': true,
+            'td': true
+        };
+
         if (typeof(document) !== 'undefined') {
             var unescapeDiv = document.createElement('div');
         }
@@ -80,6 +90,7 @@ export default class HtmlDocument extends Document {
         var tagStack = [];
         var annotations = [];
         var attrSet;
+        var blockTags = this.blockTags;
         var unpair = {
             br : true,
             img :true
@@ -89,35 +100,40 @@ export default class HtmlDocument extends Document {
             attrSet[attr[1]] = attr[3]||attr[1];
         };
         for (var i in matches){
-            var match = matches[i];
-            if (match[0] === '<'){ // it's a tag
-                var parts = match.match(/<\/?(\S+)\s?(.*)>/);
-                var tagname = parts[1];
-                var attrs = parts[2];
-                position = this._text.length;
-                if (match[1] === '/') { // close
-                    var popped = tagStack.pop();
-                    while(popped !== undefined) {
-                        popped.end = position;
-                        annotations.push(popped);
-                        if(popped.features.element == tagname)
-                            break;
-                        popped = tagStack.pop();
+            if (matches.hasOwnProperty(i)) {
+                var match = matches[i];
+                if (match[0] === '<') { // it's a tag
+                    var parts = match.match(/<\/?(\S+)\s?(.*)>/);
+                    var tagname = parts[1];
+                    var attrs = parts[2];
+                    if (blockTags[tagname]){
+                        this._text += " \n";
                     }
-                } else { // open
-                    attrSet = {
-                        element : tagname
-                    };
-                    attrs.replace(/(\w|-)+(?:=(\S+))?/g, attributeMatcher);
-                    var annotation = AnnotationSet.createAnnotation(position, position, 'html', attrSet);
-                    if(unpair[tagname]){ // it's not pair element, close immediately
-                        annotations.push(annotation);
-                    } else {
-                        tagStack.push(annotation);
+                    position = this._text.length;
+                    if (match[1] === '/') { // close
+                        var popped = tagStack.pop();
+                        while (popped !== undefined) {
+                            popped.end = position;
+                            annotations.push(popped);
+                            if (popped.features.element == tagname)
+                                break;
+                            popped = tagStack.pop();
+                        }
+                    } else { // open
+                        attrSet = {
+                            element: tagname
+                        };
+                        attrs.replace(/(\w|-)+(?:=(\S+))?/g, attributeMatcher);
+                        var annotation = AnnotationSet.createAnnotation(position, position, 'html', attrSet);
+                        if (unpair[tagname]) { // it's not pair element, close immediately
+                            annotations.push(annotation);
+                        } else {
+                            tagStack.push(annotation);
+                        }
                     }
+                } else { // it's not a tag
+                    this._text += this.unescape(match);
                 }
-            } else { // it's not a tag
-                this._text += this.unescape(match);
             }
         }
         this.annotations.add(annotations);
@@ -134,6 +150,7 @@ export default class HtmlDocument extends Document {
      */
     _cleanupHtml(html) {
         return html.replace(/\n|\r/g, ' ')
+            .replace(/<option>[^<]*<\/option>/g, '')
             .replace(/<(noscript|script|style).+?<\/\1>/gi, '') //remove scripts and style
             .replace(/<!--.+?-->/gi, '') //remove html comments
             .replace(/<!\[CDATA\[.+?\]\]>/gi, '') //remove CDATA

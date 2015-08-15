@@ -1,4 +1,4 @@
-import Tokenizer from '../../../src/nlpjs/tokenizer/Tokenizer.js';
+import Tokenizer from '../../../src/nlpjs/tokenizer/tokenizer.js';
 
 import Document from '../../../src/nlpjs/core/Document.js';
 

@@ -89,11 +89,11 @@ describe('Naive Bayes', function(){
         classifier.addClassifiedOccurrences('positive', ['bb', 'bb']);
         classifier.addClassifiedOccurrences('positive', ['abb', 'abb']);
 
-        console.log(diff(classifier.probabilities(['bb', 'abb'])));
-        console.log(diff(classifier.probabilities(['bb', 'bb'])));
-        console.log(diff(classifier.probabilities(['cc', 'aa', 'aa', 'bc','abb'])));
-        console.log(diff(classifier.probabilities(['cc', 'cd'])));
-        console.log(diff(classifier.probabilities(['cc', 'cd', 'ac', 'cb'])));
+        (diff(classifier.probabilities(['bb', 'abb'])));
+        (diff(classifier.probabilities(['bb', 'bb'])));
+        (diff(classifier.probabilities(['cc', 'aa', 'aa', 'bc','abb'])));
+        (diff(classifier.probabilities(['cc', 'cd'])));
+        (diff(classifier.probabilities(['cc', 'cd', 'ac', 'cb'])));
 
     });
 

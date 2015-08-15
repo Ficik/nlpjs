@@ -4,6 +4,6 @@
  * @memberOf nlpjs
  */
 
-import Hamming from 'distance/hamming';
-import Levenshtein from 'distance/levenshtein';
+import Hamming from './hamming';
+import Levenshtein from './levenshtein';
 export {Hamming, Levenshtein};

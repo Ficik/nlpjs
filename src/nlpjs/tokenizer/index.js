@@ -2,8 +2,8 @@
  * @namespace nlpjs.tokenizer
  */
 
-import Tokenizer from './tokenizer/Tokenizer.js';
-import CsTokenizer from './tokenizer/CsTokenizer.js';
+import Tokenizer from './tokenizer.js';
+import CsTokenizer from './tokenizer.cs.js';
 export { Tokenizer, CsTokenizer };
 
 /**

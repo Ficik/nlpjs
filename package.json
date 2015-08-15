@@ -2,7 +2,10 @@
   "name": "nlp.js",
   "version": "0.0.1",
   "description": "Native language processing in javascript",
-  "main": "nlp.js",
+  "main": "src/nlpjs/index.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha --compilers js:babel/register --recursive node_test"
+  },
   "devDependencies": {
     "babel": "^4.7.3",
     "del": "^1.1.1",

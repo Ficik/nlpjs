@@ -218,11 +218,11 @@ export default class Tokenizer {
         var tags = {
             p : true,
             li : true,
-            tr : true
-            /*div: true,
+            tr : true,
+            div: true,
              h1 : true,
              h2 : true,
-             h3 : true*/
+             h3 : true
         };
 
         var breaks = [];

@@ -4,7 +4,8 @@
   "description": "Native language processing in javascript",
   "main": "src/nlpjs/index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha --compilers js:babel/register --recursive node_test"
+    "test": "node_modules/mocha/bin/mocha --compilers js:babel/register --recursive node_test",
+    "install": "node_modules/gulp/gulp.js build"
   },
   "devDependencies": {
     "babel": "^4.7.3",

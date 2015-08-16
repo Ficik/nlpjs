@@ -24,7 +24,9 @@ export default class Hunspell {
     constructor(ruleset){
         this.ruleset = ruleset;
         this.nextId = 0;
-        for (let rule of ruleset){
+        var rule;
+        for (var i = 0, ii = ruleset.length; i < ii; i += 1){
+            rule = ruleset[i];
             rule.id = this.nextId++;
         }
     }
@@ -96,8 +98,10 @@ export default class Hunspell {
      * @param {Array<Number>|Array<{id:Number}>}rules
      */
     removeRules(rules){
-        var index = {};
-        for (let rule of rules) {
+        var index = {},
+            rule;
+        for (var i = 0, ii = rules.length; i < ii; i += 1){
+            rule = rules[i];
             index[rule.id || rule] = true;
         }
         this.ruleset = this.ruleset.filter(function(x){
@@ -113,7 +117,9 @@ export default class Hunspell {
     removeCollidingRules(){
         var collisions = this.collisions();
         var remove = [];
-        for (let collision of collisions) {
+        var collision;
+        for (var i = 0, ii = collisions.length; i < ii; i += 1) {
+            collision = collisions[i];
             remove.push(collision[0].usage > collision[1].usage ? collision[1] : collision[0]);
         }
         this.removeRules(remove);
@@ -158,11 +164,13 @@ export default class Hunspell {
      */
     usage(words, sort=false){
         var usage = [];
-        for(let rule of this.ruleset){
+        var rule, word;
+        for (var i = 0, ii = this.ruleset ? this.ruleset.length : 0; i < ii; i += 1){
+            rule = this.ruleset[i];
             rule.usage = rule.usage || 0;
             usage.push(rule);
-            for (let word of words){
-                word = word.toLowerCase().trim();
+            for (var j = 0, jj = words ? words.length : 0; j < jj; j += 1){
+                word = words[j].toLowerCase().trim();
                 if (this.dict && this.dict[word]) {
                     if (!this.dict[word].usage) {
                         this.dict[word].usage = 1;
@@ -212,10 +220,12 @@ export default class Hunspell {
      * @param dictionary
      */
     dictionary(dictionary){
-        var lines = dictionary.split('\n');
-        var regex = /^(\S+)\/([A-Z]+)$/;
+        var lines = dictionary.split('\n'),
+            regex = /^(\S+)\/([A-Z]+)$/,
+            line;
         this.dict = {};
-        for (let line of lines) {
+        for (var i = 0, ii = lines.length; i < ii; i += 1) {
+            line = lines[i];
             let match = line.match(regex);
             if (match){
                 this.dict[match[1].toLowerCase()] = {
@@ -330,10 +340,11 @@ export default class Hunspell {
         var lines = content.split('\n');
         var regex = /(SFX|PFX)\s+([A-Z])\s+([A-Z])?\s+(\S+)\s+(\S+)\s+(.+)$/;
         var rules = [];
-        for (let line of lines) {
-            line = line.split('#')[0].trim();
+        var line;
+        for(var i = 0, ii = lines ? lines.length : 0; i < ii; i += 1){
+            line = lines[i].split('#')[0].trim();
             let match = line.match(regex);
-            if (match){
+            if (match) {
                 let type = match[1];
                 let cls = match[2];
                 let del = match[4];

@@ -45,10 +45,12 @@ export default class NaiveBayes {
      */
     probabilities(features, priors={}){
         var probabilities = {};
+        var feature;
         for (let cls in this._classes){
             if (this._classes.hasOwnProperty(cls) && cls !== 'total') {
                 probabilities[cls] = priors[cls]||(this._classes[cls].docs || 0) / (this._classes.total || 1);
-                for (let feature of features) {
+                for (var i = 0, ii = features.length; i < ii; i += 1){
+                    feature = features[i];
                     probabilities[cls] *= this.classProbability(cls, feature);
                 }
             }
@@ -113,7 +115,9 @@ export default class NaiveBayes {
      * @param featureSet
      */
     addBackgroundOccurences(featureSet){
-        for (let feature of featureSet) {
+        var feature;
+        for (var i = 0, ii = featureSet.length; i < ii; i += 1){
+            feature = featureSet[i];
             if (!this._model[feature]) {
                 this._model[feature] = {};
             }

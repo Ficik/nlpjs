@@ -150,7 +150,7 @@ export default class HtmlDocument extends Document {
      */
     _cleanupHtml(html) {
         return html.replace(/\n|\r/g, ' ')
-            .replace(/<option>[^<]*<\/option>/g, '')
+            .replace(/<option[^<]*<\/option>/g, '')
             .replace(/<(noscript|script|style).+?<\/\1>/gi, '') //remove scripts and style
             .replace(/<!--.+?-->/gi, '') //remove html comments
             .replace(/<!\[CDATA\[.+?\]\]>/gi, '') //remove CDATA

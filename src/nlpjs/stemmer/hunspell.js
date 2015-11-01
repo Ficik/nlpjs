@@ -40,8 +40,12 @@ export default class Hunspell {
      */
     stem(word, useDict = true) {
         word = word.toLowerCase().trim();
+        if (word.normalize){
+            word = word.normalize();
+        }
         var w;
         // use dictionary if available and word is in dict
+
         if (this.dict && useDict) {
             if (this.dict[word]){
                 return word;
@@ -260,7 +264,7 @@ export default class Hunspell {
      * ***************/
 
     static fromJSON(json) {
-        Hunspell.load(JSON.parse(json));
+        return Hunspell.load(JSON.parse(json));
     }
 
     /**
